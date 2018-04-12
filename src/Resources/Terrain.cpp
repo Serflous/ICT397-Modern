@@ -2,7 +2,7 @@
 
 Terrain::Terrain()
 {
-
+	m_texture = nullptr;
 }
 
 Terrain::Terrain(const Terrain & other)
@@ -40,6 +40,11 @@ void Terrain::SetVertexCount(int count)
 	m_vertexCount = count;
 }
 
+void Terrain::SetTexture(Texture2D ** texture)
+{
+	m_texture = (*texture);
+}
+
 glm::vec3 Terrain::GetScale()
 {
 	return m_scale;
@@ -58,6 +63,11 @@ unsigned char * Terrain::GetTerrainData()
 GLuint Terrain::GetVAOID()
 {
 	return m_vaoId;
+}
+
+Texture2D * Terrain::GetTexture()
+{
+	return m_texture;
 }
 
 bool Terrain::InBounds(int xPos, int zPos)

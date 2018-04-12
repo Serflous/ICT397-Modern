@@ -4,6 +4,8 @@
 #include <glm/vec3.hpp>
 #include <GL/freeglut.h>
 
+#include "../Resources/Texture2D.h"
+
 class Terrain
 {
 public:
@@ -16,6 +18,7 @@ public:
 	void SetTerrainData(unsigned char * data);
 	void SetVAOID(GLuint vaoId);
 	void SetVertexCount(int count);
+	void SetTexture(Texture2D ** texture);
 
 	glm::vec3 GetScale();
 	int GetSize();
@@ -24,6 +27,7 @@ public:
 
 	float GetHeight(int xPos, int zPos);
 	int GetVertexCount();
+	Texture2D * GetTexture();
 
 private:
 	bool InBounds(int xPos, int zPos);
@@ -33,6 +37,7 @@ private:
 	int m_vertexCount;
 	unsigned char * m_terrainData;
 	GLuint m_vaoId;
+	Texture2D * m_texture;
 };
 
 #endif

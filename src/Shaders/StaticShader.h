@@ -5,6 +5,8 @@
 #include "../GameObjects/Camera.h"
 #include "../Util/MathHelper.h"
 
+class Camera;
+
 class StaticShader : public ShaderBase
 {
 public:

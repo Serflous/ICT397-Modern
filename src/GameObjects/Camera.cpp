@@ -5,6 +5,7 @@ Camera::Camera()
 	m_pitch = 0;
 	m_roll = 0;
 	m_yaw = 0;
+	InputManager::GetInstance()->GetMousePosition(m_lastMouseX, m_lastMouseY);
 }
 
 Camera::Camera(const Camera & other)
@@ -39,21 +40,47 @@ float Camera::GetYaw()
 
 void Camera::Move()
 {
+	int mouseX, mouseY;
+	int winX, winY;
+
+	GlutWindow::GetInstance()->GetWindowSize(winX, winY);
+
+	InputManager::GetInstance()->GetMousePosition(mouseX, mouseY);
+	int deltaX = mouseX - (winX / 2);
+	int deltaY = mouseY - (winY / 2);
+
+	m_yaw += deltaX * m_rotSpeed;
+	m_pitch += deltaY * m_rotSpeed;
+
+	if (m_yaw > 360)
+		m_yaw = 0;
+	if (m_yaw < 0)
+		m_yaw = 360;
+	if (m_pitch > 90)
+		m_pitch = 90;
+	if (m_pitch < -90)
+		m_pitch = -90;
+	glutWarpPointer(winX / 2, winY / 2);
+
 	if (InputManager::GetInstance()->GetKeyState('w') == KS_KEY_PRESSED)
 	{
-		m_position.z -= m_speed;
+		m_position.x += (float)(sin(glm::radians(m_yaw))) * m_speed;
+		m_position.z -= (float)(cos(glm::radians(m_yaw))) * m_speed;
 	}
 	if (InputManager::GetInstance()->GetKeyState('s') == KS_KEY_PRESSED)
 	{
-		m_position.z += m_speed;
+		m_position.x -= (float)(sin(glm::radians(m_yaw))) * m_speed;
+		m_position.z += (float)(cos(glm::radians(m_yaw))) * m_speed;
 	}
 	if (InputManager::GetInstance()->GetKeyState('a') == KS_KEY_PRESSED)
 	{
-		m_position.x -= m_speed;
+		m_position.x -= (float)(cos(glm::radians(m_yaw))) * m_speed;
+		m_position.z -= (float)(sin(glm::radians(m_yaw))) * m_speed;
 	}
 	if (InputManager::GetInstance()->GetKeyState('d') == KS_KEY_PRESSED)
 	{
-		m_position.x += m_speed;
+		m_position.x += (float)(cos(glm::radians(m_yaw))) * m_speed;
+		m_position.z += (float)(sin(glm::radians(m_yaw))) * m_speed;
 	}
 	if (InputManager::GetInstance()->GetKeyState('i') == KS_KEY_PRESSED)
 	{

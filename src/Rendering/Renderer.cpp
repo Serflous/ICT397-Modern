@@ -98,7 +98,7 @@ void Renderer::RenderTerrain(Terrain * terrain)
 	((TerrainShader*)m_terrainShader)->LoadTransformationMatrix(transformationMatrix);
 
 	glActiveTexture(GL_TEXTURE0);
-	//model->GetTexture()->BindTexture();
+	terrain->GetTexture()->BindTexture();
 	glDrawElements(GL_TRIANGLES, terrain->GetVertexCount(), GL_UNSIGNED_INT, 0);
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);

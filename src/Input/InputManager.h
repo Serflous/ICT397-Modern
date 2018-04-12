@@ -40,6 +40,7 @@ private:
 
 	KeyState m_keys[550];
 	int m_x, m_y;
+	//int m_deltaX, m_deltaY;
 	ButtonState m_buttonState[3];
 };
 

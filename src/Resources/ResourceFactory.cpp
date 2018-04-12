@@ -299,7 +299,7 @@ void ResourceFactory::AddIndiciesToVAO(std::vector<int> indicies)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicies.size() * sizeof(int), &indicies.front(), GL_STATIC_DRAW);
 }
 
-void ResourceFactory::LoadTerrain(const char * filename, int size, Terrain ** terrain, glm::vec3 scale)
+void ResourceFactory::LoadTerrain(const char * filename, int mapSize, const char * texture, int texSize, Terrain ** terrain, glm::vec3 scale)
 {
 	std::ifstream file(filename, std::ios::binary);
 	if (!file)
@@ -308,9 +308,9 @@ void ResourceFactory::LoadTerrain(const char * filename, int size, Terrain ** te
 		return;
 	}
 	unsigned char * terrainData;
-	if (size > 0)
+	if (mapSize > 0)
 	{
-		terrainData = new unsigned char[size * size];
+		terrainData = new unsigned char[mapSize * mapSize];
 	}
 	else
 	{
@@ -324,7 +324,7 @@ void ResourceFactory::LoadTerrain(const char * filename, int size, Terrain ** te
 	file.read(reinterpret_cast<char *>(terrainData), length);
 	file.close();
 
-	(*terrain)->SetSize(size);
+	(*terrain)->SetSize(mapSize);
 	(*terrain)->SetTerrainData(terrainData);
 	(*terrain)->SetScale(scale);
 
@@ -337,8 +337,8 @@ void ResourceFactory::LoadTerrain(const char * filename, int size, Terrain ** te
 	(*terrain)->SetVAOID(vaoId);
 	BindVAO(vaoId);
 
-	for(int z = 0; z < size; z++)
-		for (int x = 0; x < size; x++)
+	for(int z = 0; z < mapSize; z++)
+		for (int x = 0; x < mapSize; x++)
 		{
 			int y = (*terrain)->GetHeight(x, z);
 			verts.push_back(x * scale.x);
@@ -347,20 +347,20 @@ void ResourceFactory::LoadTerrain(const char * filename, int size, Terrain ** te
 			normals.push_back(0);
 			normals.push_back(1);
 			normals.push_back(0);
-			tex.push_back((float)x / ((float)size - 1));
-			tex.push_back((float)z / ((float)size - 1));
+			tex.push_back((float)x);// / ((float)mapSize - 1));
+			tex.push_back((float)z);// / ((float)mapSize - 1));
 		}
 
-	for(int z = 0; z < size-1; z++)
-		for (int x = 0; x < size-1; x++)
+	for(int z = 0; z < mapSize -1; z++)
+		for (int x = 0; x < mapSize -1; x++)
 		{
-			indicies.push_back((z * size + x));
-			indicies.push_back(((z + 1) * size) + x);
-			indicies.push_back((z * size) + x + 1);
+			indicies.push_back((z * mapSize + x));
+			indicies.push_back(((z + 1) * mapSize) + x);
+			indicies.push_back((z * mapSize) + x + 1);
 
-			indicies.push_back((z * size) + x + 1);
-			indicies.push_back(((z + 1) * size) + x);
-			indicies.push_back(((z + 1) * size) + x + 1);
+			indicies.push_back((z * mapSize) + x + 1);
+			indicies.push_back(((z + 1) * mapSize) + x);
+			indicies.push_back(((z + 1) * mapSize) + x + 1);
 		}
 
 	(*terrain)->SetVertexCount(indicies.size());
@@ -369,5 +369,9 @@ void ResourceFactory::LoadTerrain(const char * filename, int size, Terrain ** te
 	AddDataToVAO(1, 2, tex);
 	AddDataToVAO(2, 3, normals);
 	UnbindVAO();
+
+	Texture2D * terrainTexture = new Texture2D();
+	LoadTexture(texture, texSize, texSize, &terrainTexture);
+	(*terrain)->SetTexture(&terrainTexture);
 
 }

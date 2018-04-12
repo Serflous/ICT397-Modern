@@ -9,6 +9,8 @@
 
 #include "../GameObjects/Camera.h"
 
+class Camera;
+
 class MathHelper
 {
 public:

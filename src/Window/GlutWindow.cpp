@@ -61,6 +61,8 @@ int GlutWindow::InitializeGlutWindow(int * argc, char ** argv)
 	glDebugMessageControl(
 		GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, true
 	);
+
+	glutSetCursor(GLUT_CURSOR_NONE);
 	return 0;
 }
 
