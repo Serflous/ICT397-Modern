@@ -92,7 +92,7 @@ void Renderer::RenderTerrain(Terrain * terrain)
 	//Transformation matrix
 
 	glEnable(GL_TEXTURE_2D);
-	glm::mat4x4 transformationMatrix = MathHelper::CreateTransformationMatrix(glm::vec3(0, -5, -15), 0, 90, 0, terrain->GetScale().x);
+	glm::mat4x4 transformationMatrix = MathHelper::CreateTransformationMatrix(glm::vec3(0, -10, -15), 0, 90, 0, terrain->GetScale().x);
 
 	TerrainShader * shader = (TerrainShader*)m_terrainShader;
 	((TerrainShader*)m_terrainShader)->LoadTransformationMatrix(transformationMatrix);

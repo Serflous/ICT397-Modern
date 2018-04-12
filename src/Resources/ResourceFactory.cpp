@@ -351,8 +351,8 @@ void ResourceFactory::LoadTerrain(const char * filename, int size, Terrain ** te
 			tex.push_back((float)z / ((float)size - 1));
 		}
 
-	for(int z = 0; z < size; z++)
-		for (int x = 0; x < size; x++)
+	for(int z = 0; z < size-1; z++)
+		for (int x = 0; x < size-1; x++)
 		{
 			indicies.push_back((z * size + x));
 			indicies.push_back(((z + 1) * size) + x);
@@ -363,7 +363,7 @@ void ResourceFactory::LoadTerrain(const char * filename, int size, Terrain ** te
 			indicies.push_back(((z + 1) * size) + x + 1);
 		}
 
-	(*terrain)->SetVertexCount(verts.size());
+	(*terrain)->SetVertexCount(indicies.size());
 	AddIndiciesToVAO(indicies);
 	AddDataToVAO(0, 3, verts);
 	AddDataToVAO(1, 2, tex);
