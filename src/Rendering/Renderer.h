@@ -5,8 +5,11 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 
+#include "../Resources/ResourceFactory.h"
 #include "../Window/GlutWindow.h"
+#include "../Shaders/ShaderBase.h"
 #include "../Shaders/StaticShader.h"
+#include "../Shaders/TerrainShader.h"
 #include "../Resources/ModelOBJ.h"
 #include "../Resources/Terrain.h"
 #include "../Util/MathHelper.h"
@@ -15,7 +18,6 @@ class Renderer
 {
 public:
 	Renderer();
-	Renderer(StaticShader * shader);
 	Renderer(const Renderer & other);
 	~Renderer();
 
@@ -25,12 +27,11 @@ public:
 	void RenderModel(ModelOBJ * model);
 	void RenderTerrain(Terrain * terrain);
 	void SetView(Camera * camera);
-	void StartShader();
-	void StopShader();
 private:
 	void CreateProjectionMatrix();
 private:
-	StaticShader * m_shader;
+	ShaderBase * m_staticShader;
+	ShaderBase * m_terrainShader;
 	glm::mat4x4 m_projectionMatrix;
 	const float FOV = 70.0f;
 	const float NEAR_PLANE = 0.1f;

@@ -299,7 +299,7 @@ void ResourceFactory::AddIndiciesToVAO(std::vector<int> indicies)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicies.size() * sizeof(int), &indicies.front(), GL_STATIC_DRAW);
 }
 
-void ResourceFactory::LoadTerrain(const char * filename, int size, Terrain ** terrain)
+void ResourceFactory::LoadTerrain(const char * filename, int size, Terrain ** terrain, glm::vec3 scale)
 {
 	std::ifstream file(filename, std::ios::binary);
 	if (!file)
@@ -326,28 +326,48 @@ void ResourceFactory::LoadTerrain(const char * filename, int size, Terrain ** te
 
 	(*terrain)->SetSize(size);
 	(*terrain)->SetTerrainData(terrainData);
+	(*terrain)->SetScale(scale);
 
 	std::vector<float> verts;
-	std::vector<float> tex;
-	std::vector<float> normals;
+	std::vector<float> tex; // Later
+	std::vector<float> normals; // Later
 	std::vector<int> indicies;
 
 	GLuint vaoId = CreateVAO();
 	(*terrain)->SetVAOID(vaoId);
+	BindVAO(vaoId);
 
-	for (int z = 0; z < size - 1; z++)
-	{
+	for(int z = 0; z < size; z++)
 		for (int x = 0; x < size; x++)
 		{
-			verts.push_back((float)x * (*terrain)->GetScale().x);
-			verts.push_back((*terrain)->GetHeight(x, z));
-			verts.push_back((float)z * (*terrain)->GetScale().z);
-
-			verts.push_back((float)x * (*terrain)->GetScale().x);
-			verts.push_back((*terrain)->GetHeight(x, z + 1));
-			verts.push_back((float)(z + 1) * (*terrain)->GetScale().z);
+			int y = (*terrain)->GetHeight(x, z);
+			verts.push_back(x * scale.x);
+			verts.push_back(y * scale.y);
+			verts.push_back(z * scale.z);
+			normals.push_back(0);
+			normals.push_back(1);
+			normals.push_back(0);
+			tex.push_back((float)x / ((float)size - 1));
+			tex.push_back((float)z / ((float)size - 1));
 		}
-	}
 
+	for(int z = 0; z < size; z++)
+		for (int x = 0; x < size; x++)
+		{
+			indicies.push_back((z * size + x));
+			indicies.push_back(((z + 1) * size) + x);
+			indicies.push_back((z * size) + x + 1);
+
+			indicies.push_back((z * size) + x + 1);
+			indicies.push_back(((z + 1) * size) + x);
+			indicies.push_back(((z + 1) * size) + x + 1);
+		}
+
+	(*terrain)->SetVertexCount(verts.size());
+	AddIndiciesToVAO(indicies);
 	AddDataToVAO(0, 3, verts);
+	AddDataToVAO(1, 2, tex);
+	AddDataToVAO(2, 3, normals);
+	UnbindVAO();
+
 }

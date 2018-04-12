@@ -32,7 +32,6 @@ void Scene::SetRenderer(Renderer * renderer)
 
 void Scene::RenderScene()
 {
-	m_renderer->StartShader();
 	m_renderer->PrepareRender();
 	m_camera->Move();
 	m_renderer->SetView(m_camera);
@@ -42,7 +41,6 @@ void Scene::RenderScene()
 	{
 		m_renderer->RenderModel(*modelIter);
 	}
-	m_renderer->StopShader();
 }
 
 void Scene::SetTerrain(Terrain * terrain)

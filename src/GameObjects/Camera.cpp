@@ -55,4 +55,28 @@ void Camera::Move()
 	{
 		m_position.x += m_speed;
 	}
+	if (InputManager::GetInstance()->GetKeyState('i') == KS_KEY_PRESSED)
+	{
+		m_pitch -= m_speed;
+	}
+	if (InputManager::GetInstance()->GetKeyState('k') == KS_KEY_PRESSED)
+	{
+		m_pitch += m_speed;
+	}
+	if (InputManager::GetInstance()->GetKeyState('j') == KS_KEY_PRESSED)
+	{
+		m_yaw -= m_speed;
+	}
+	if (InputManager::GetInstance()->GetKeyState('l') == KS_KEY_PRESSED)
+	{
+		m_yaw += m_speed;
+	}
+	if (InputManager::GetInstance()->GetKeyState(' ') == KS_KEY_PRESSED)
+	{
+		m_position.y += m_speed;
+	}
+	if (InputManager::GetInstance()->GetKeyState('x') == KS_KEY_PRESSED)
+	{
+		m_position.y -= m_speed;
+	}
 }

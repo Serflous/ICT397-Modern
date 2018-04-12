@@ -15,6 +15,7 @@ public:
 	void SetSize(int size);
 	void SetTerrainData(unsigned char * data);
 	void SetVAOID(GLuint vaoId);
+	void SetVertexCount(int count);
 
 	glm::vec3 GetScale();
 	int GetSize();
@@ -22,12 +23,14 @@ public:
 	GLuint GetVAOID();
 
 	float GetHeight(int xPos, int zPos);
+	int GetVertexCount();
 
 private:
 	bool InBounds(int xPos, int zPos);
 private:
 	glm::vec3 m_scale;
 	int m_size;
+	int m_vertexCount;
 	unsigned char * m_terrainData;
 	GLuint m_vaoId;
 };

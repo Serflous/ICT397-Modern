@@ -22,7 +22,7 @@ public:
 	void LoadTexture(const char * filename, int x, int y, Texture2D ** texture);
 	void LoadOBJ(const char * filename, ModelOBJ ** model, Texture2D * texture);
 	void LoadShader(const char * vertFilename, const char * fragFilename, ShaderBase ** shader);
-	void LoadTerrain(const char * heightmap, int size, Terrain ** terrain);
+	void LoadTerrain(const char * heightmap, int size, Terrain ** terrain, glm::vec3 scale);
 
 private:
 	ResourceFactory();

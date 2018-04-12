@@ -24,7 +24,7 @@ private:
 private:
 	glm::vec3 m_position;
 	float m_pitch, m_yaw, m_roll;
-	float m_speed = 0.1f;
+	float m_speed = 0.3f;
 };
 
 #endif

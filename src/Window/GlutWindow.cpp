@@ -70,6 +70,14 @@ void GlutWindow::DrawCallback()
 
 	//glMatrixMode(GL_MODELVIEW);
 	//glLoadIdentity();
+	if (InputManager::GetInstance()->GetKeyState(']') == KS_KEY_PRESSED)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+	if (InputManager::GetInstance()->GetKeyState('\'') == KS_KEY_PRESSED)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
 	m_scene->RenderScene();
 
 	glutSwapBuffers();
@@ -143,6 +151,7 @@ void GlutWindow::GetWindowSize(int & x, int & y)
 void GlutWindow::GLMessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 {
 	using namespace std;
+	cout << endl;
 	cout << "Message: " << message << endl;
 	cout << "Type: ";
 	switch (type) {

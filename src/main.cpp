@@ -13,20 +13,17 @@ int main(int argc, char ** argv)
 	ResourceFactory * resourceFactory = ResourceFactory::GetInstance();
 	Texture2D * rockTexture = nullptr;
 	ModelOBJ * rockModel = nullptr;
-	ShaderBase * shader = new StaticShader();
 	Camera * camera = new Camera();
-	Renderer * renderer = new Renderer((StaticShader*)shader);
 	Scene * scene = new Scene();
 	Terrain * terrain = new Terrain();
 	
 	window->InitializeGlutWindow(&argc, argv);
 
-	terrain->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
+	Renderer * renderer = new Renderer();
 
 	resourceFactory->LoadTexture("res/Textures/kartRedBaked.raw", 2048, 2048, &rockTexture);
 	resourceFactory->LoadOBJ("res/Models/kartRedBaked.obj", &rockModel, rockTexture);
-	resourceFactory->LoadShader("res/Shaders/staticShader.vert", "res/Shaders/staticShader.frag", &shader);
-	resourceFactory->LoadTerrain("res/Heightmaps/heightmap.raw", 512, &terrain);
+	resourceFactory->LoadTerrain("res/Heightmaps/heightmap.raw", 512, &terrain, glm::vec3(1, 0.1f, 1));
 	
 	renderer->Init();
 

@@ -3,13 +3,11 @@
 
 Renderer::Renderer()
 {
-	m_shader = nullptr;
-}
-
-Renderer::Renderer(StaticShader * shader)
-{
-	m_shader = shader;
-	
+	ResourceFactory * loader = ResourceFactory::GetInstance();
+	m_staticShader = new StaticShader();
+	m_terrainShader = new TerrainShader();
+	loader->LoadShader("res/Shaders/staticShader.vert", "res/Shaders/staticShader.frag", &m_staticShader);
+	loader->LoadShader("res/Shaders/terrainShader.vert", "res/Shaders/terrainShader.frag", &m_terrainShader);
 }
 
 Renderer::Renderer(const Renderer & other)
@@ -25,9 +23,12 @@ Renderer::~Renderer()
 void Renderer::Init()
 {
 	CreateProjectionMatrix();
-	m_shader->Start();
-	m_shader->LoadProjectionMatrix(m_projectionMatrix);
-	m_shader->Stop();
+	m_staticShader->Start();
+	((StaticShader*)m_staticShader)->LoadProjectionMatrix(m_projectionMatrix);
+	m_staticShader->Stop();
+	m_terrainShader->Start();
+	((TerrainShader*)m_terrainShader)->LoadProjectionMatrix(m_projectionMatrix);
+	m_terrainShader->Stop();
 }
 
 void Renderer::PrepareRender()
@@ -38,18 +39,10 @@ void Renderer::PrepareRender()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::StartShader()
-{
-	m_shader->Start();
-}
-
-void Renderer::StopShader()
-{
-	m_shader->Stop();
-}
 
 void Renderer::RenderModel(ModelOBJ * model)
 {
+	m_staticShader->Start();
 	glBindVertexArray(model->GetVAOID());
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
@@ -58,7 +51,9 @@ void Renderer::RenderModel(ModelOBJ * model)
 
 	glEnable(GL_TEXTURE_2D);
 	glm::mat4x4 transformationMatrix = MathHelper::CreateTransformationMatrix(glm::vec3(0, -5, -15), 0, 90, 0, 1);
-	m_shader->LoadTransformationMatrix(transformationMatrix);
+	
+	StaticShader * shader = (StaticShader*)m_staticShader;
+	((StaticShader*)m_staticShader)->LoadTransformationMatrix(transformationMatrix);
 
 	glActiveTexture(GL_TEXTURE0);
 	model->GetTexture()->BindTexture();
@@ -79,14 +74,34 @@ void Renderer::CreateProjectionMatrix()
 
 void Renderer::SetView(Camera * camera)
 {
-	m_shader->LoadViewMatrix(camera);
+	m_staticShader->Start();
+	((StaticShader*)m_staticShader)->LoadViewMatrix(camera);
+	m_staticShader->Stop();
+	m_terrainShader->Start();
+	((TerrainShader*)m_terrainShader)->LoadViewMatrix(camera);
+	m_terrainShader->Stop();
 }
 
 void Renderer::RenderTerrain(Terrain * terrain)
 {
-	glm::mat4x4 transformationMatrix = MathHelper::CreateTransformationMatrix(glm::vec3(0, -5, -15), 0, 90, 0, 1);
-	m_shader->LoadTransformationMatrix(transformationMatrix);
-
+	m_staticShader->Start();
 	glBindVertexArray(terrain->GetVAOID());
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, terrain->GetSize());
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
+	//Transformation matrix
+
+	glEnable(GL_TEXTURE_2D);
+	glm::mat4x4 transformationMatrix = MathHelper::CreateTransformationMatrix(glm::vec3(0, -5, -15), 0, 90, 0, terrain->GetScale().x);
+
+	TerrainShader * shader = (TerrainShader*)m_terrainShader;
+	((TerrainShader*)m_terrainShader)->LoadTransformationMatrix(transformationMatrix);
+
+	glActiveTexture(GL_TEXTURE0);
+	//model->GetTexture()->BindTexture();
+	glDrawElements(GL_TRIANGLES, terrain->GetVertexCount(), GL_UNSIGNED_INT, 0);
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
+	glBindVertexArray(0);
 }
