@@ -51,9 +51,6 @@ void ResourceFactory::LoadTexture(const char * filename, int x, int y, Texture2D
 
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_DECAL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_DECAL);
-
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
@@ -329,8 +326,8 @@ void ResourceFactory::LoadTerrain(const char * filename, int mapSize, const char
 	(*terrain)->SetScale(scale);
 
 	std::vector<float> verts;
-	std::vector<float> tex; // Later
-	std::vector<float> normals; // Later
+	std::vector<float> tex;
+	std::vector<float> normals;
 	std::vector<int> indicies;
 
 	GLuint vaoId = CreateVAO();

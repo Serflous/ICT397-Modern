@@ -14,6 +14,7 @@
 #include "../Resources/Terrain.h"
 #include "../Util/MathHelper.h"
 
+class Terrain;
 class Renderer
 {
 public:

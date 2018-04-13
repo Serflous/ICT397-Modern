@@ -1,10 +1,13 @@
 #include "Camera.h"
 
-Camera::Camera()
+Camera::Camera(int x, int y, int z)
 {
 	m_pitch = 0;
 	m_roll = 0;
 	m_yaw = 0;
+	m_position.x = x;
+	m_position.y = y;
+	m_position.z = z;
 	InputManager::GetInstance()->GetMousePosition(m_lastMouseX, m_lastMouseY);
 }
 
@@ -82,22 +85,7 @@ void Camera::Move()
 		m_position.x += (float)(cos(glm::radians(m_yaw))) * m_speed;
 		m_position.z += (float)(sin(glm::radians(m_yaw))) * m_speed;
 	}
-	if (InputManager::GetInstance()->GetKeyState('i') == KS_KEY_PRESSED)
-	{
-		m_pitch -= m_speed;
-	}
-	if (InputManager::GetInstance()->GetKeyState('k') == KS_KEY_PRESSED)
-	{
-		m_pitch += m_speed;
-	}
-	if (InputManager::GetInstance()->GetKeyState('j') == KS_KEY_PRESSED)
-	{
-		m_yaw -= m_speed;
-	}
-	if (InputManager::GetInstance()->GetKeyState('l') == KS_KEY_PRESSED)
-	{
-		m_yaw += m_speed;
-	}
+	
 	if (InputManager::GetInstance()->GetKeyState(' ') == KS_KEY_PRESSED)
 	{
 		m_position.y += m_speed;
@@ -106,4 +94,14 @@ void Camera::Move()
 	{
 		m_position.y -= m_speed;
 	}
+}
+
+void Camera::SetHeight(float height)
+{
+	m_position.y = height;
+}
+
+float Camera::GetCamViewHeight()
+{
+	return m_camViewHeight;
 }

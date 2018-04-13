@@ -11,7 +11,7 @@
 class Camera
 {
 public:
-	Camera();
+	Camera(int x, int y, int z);
 	Camera(const Camera & other);
 	~Camera();
 
@@ -19,8 +19,10 @@ public:
 	float GetPitch();
 	float GetYaw();
 	float GetRoll();
+	float GetCamViewHeight();
 
 	void Move();
+	void SetHeight(float height);
 private:
 
 private:
@@ -29,6 +31,7 @@ private:
 	float m_speed = 0.3f;
 	float m_rotSpeed = 0.1f;
 	int m_lastMouseX = 0, m_lastMouseY = 0;
+	const float m_camViewHeight = -1;
 };
 
 #endif

@@ -13,7 +13,7 @@ int main(int argc, char ** argv)
 	ResourceFactory * resourceFactory = ResourceFactory::GetInstance();
 	Texture2D * rockTexture = nullptr;
 	ModelOBJ * rockModel = nullptr;
-	Camera * camera = new Camera();
+	Camera * camera = new Camera(0, 0, 0);
 	Scene * scene = new Scene();
 	Terrain * terrain = new Terrain();
 	
@@ -23,7 +23,7 @@ int main(int argc, char ** argv)
 
 	resourceFactory->LoadTexture("res/Textures/kartRedBaked.raw", 2048, 2048, &rockTexture);
 	resourceFactory->LoadOBJ("res/Models/kartRedBaked.obj", &rockModel, rockTexture);
-	resourceFactory->LoadTerrain("res/Heightmaps/heightmap.raw", 512, "res/textures/Terrain.raw", 128, &terrain, glm::vec3(1, 0.3f, 1));
+	resourceFactory->LoadTerrain("res/Heightmaps/heightmapLarge.raw", 1024, "res/textures/Terrain.raw", 128, &terrain, glm::vec3(1, 0.8f, 1));
 	
 	renderer->Init();
 

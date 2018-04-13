@@ -50,7 +50,7 @@ void Renderer::RenderModel(ModelOBJ * model)
 	//Transformation matrix
 
 	glEnable(GL_TEXTURE_2D);
-	glm::mat4x4 transformationMatrix = MathHelper::CreateTransformationMatrix(glm::vec3(0, -5, -15), 0, 90, 0, 1);
+	glm::mat4x4 transformationMatrix = MathHelper::CreateTransformationMatrix(glm::vec3(0, 0, 0), 0, 90, 0, glm::vec3(1, 1, 1));
 	
 	StaticShader * shader = (StaticShader*)m_staticShader;
 	((StaticShader*)m_staticShader)->LoadTransformationMatrix(transformationMatrix);
@@ -92,7 +92,7 @@ void Renderer::RenderTerrain(Terrain * terrain)
 	//Transformation matrix
 
 	glEnable(GL_TEXTURE_2D);
-	glm::mat4x4 transformationMatrix = MathHelper::CreateTransformationMatrix(glm::vec3(0, -10, -15), 0, 90, 0, terrain->GetScale().x);
+	glm::mat4x4 transformationMatrix = MathHelper::CreateTransformationMatrix(glm::vec3(0, 0, 0), 0, 0, 0, terrain->GetScale());
 
 	TerrainShader * shader = (TerrainShader*)m_terrainShader;
 	((TerrainShader*)m_terrainShader)->LoadTransformationMatrix(transformationMatrix);

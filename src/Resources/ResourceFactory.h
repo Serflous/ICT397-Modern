@@ -14,6 +14,7 @@
 #include "Terrain.h"
 #include "../Shaders/ShaderBase.h"
 
+class Terrain;
 class ResourceFactory
 {
 public:

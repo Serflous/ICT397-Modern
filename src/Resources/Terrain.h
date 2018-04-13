@@ -2,9 +2,11 @@
 #define TERRAIN_H
 
 #include <glm/vec3.hpp>
+#include <GL/glew.h>
 #include <GL/freeglut.h>
 
 #include "../Resources/Texture2D.h"
+#include "../Util/MathHelper.h"
 
 class Terrain
 {
@@ -28,6 +30,7 @@ public:
 	float GetHeight(int xPos, int zPos);
 	int GetVertexCount();
 	Texture2D * GetTexture();
+	float GetRelativeHeight(float xPos, float zPos);
 
 private:
 	bool InBounds(int xPos, int zPos);

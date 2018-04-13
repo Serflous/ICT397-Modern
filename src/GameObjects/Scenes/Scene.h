@@ -8,6 +8,8 @@
 #include "../../Resources/ModelOBJ.h"
 #include "../../Resources/Terrain.h"
 
+class Camera;
+class Terrain;
 class Renderer;
 
 class Scene
