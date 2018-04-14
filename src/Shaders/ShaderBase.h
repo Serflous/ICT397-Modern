@@ -32,6 +32,7 @@ protected:
 	void BindAttrib(int attrib, const char * name);
 	GLuint GetUniform(const char * name);
 	void LoadFloat(GLuint location, float value);
+	void LoadInt(GLuint location, int value);
 	void LoadVec3(GLuint location, glm::vec3 value);
 	void LoadBoolean(GLuint location, bool value);
 	void LoadMatrix4(GLuint location, glm::mat4x4 value);

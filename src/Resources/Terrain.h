@@ -5,7 +5,7 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 
-#include "../Resources/Texture2D.h"
+#include "../Resources/TerrainTextures.h"
 #include "../Util/MathHelper.h"
 
 class Terrain
@@ -20,7 +20,7 @@ public:
 	void SetTerrainData(unsigned char * data);
 	void SetVAOID(GLuint vaoId);
 	void SetVertexCount(int count);
-	void SetTexture(Texture2D ** texture);
+	void SetTextures(TerrainTextures ** texture);
 
 	glm::vec3 GetScale();
 	int GetSize();
@@ -29,7 +29,7 @@ public:
 
 	float GetHeight(int xPos, int zPos);
 	int GetVertexCount();
-	Texture2D * GetTexture();
+	TerrainTextures * GetTextures();
 	float GetRelativeHeight(float xPos, float zPos);
 
 private:
@@ -40,7 +40,7 @@ private:
 	int m_vertexCount;
 	unsigned char * m_terrainData;
 	GLuint m_vaoId;
-	Texture2D * m_texture;
+	TerrainTextures * m_textures;
 };
 
 #endif

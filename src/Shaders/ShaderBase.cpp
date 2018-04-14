@@ -40,6 +40,11 @@ void ShaderBase::LoadFloat(GLuint location, float value)
 	glUniform1f(location, value);
 }
 
+void ShaderBase::LoadInt(GLuint location, int value)
+{
+	glUniform1i(location, value);
+}
+
 void ShaderBase::LoadVec3(GLuint location, glm::vec3 value)
 {
 	glUniform3f(location, value.x, value.y, value.z);

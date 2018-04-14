@@ -296,7 +296,7 @@ void ResourceFactory::AddIndiciesToVAO(std::vector<int> indicies)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicies.size() * sizeof(int), &indicies.front(), GL_STATIC_DRAW);
 }
 
-void ResourceFactory::LoadTerrain(const char * filename, int mapSize, const char * texture, int texSize, Terrain ** terrain, glm::vec3 scale)
+void ResourceFactory::LoadTerrain(const char * filename, int mapSize, Terrain ** terrain, TerrainTextures ** terrainTextures, glm::vec3 scale)
 {
 	std::ifstream file(filename, std::ios::binary);
 	if (!file)
@@ -338,9 +338,9 @@ void ResourceFactory::LoadTerrain(const char * filename, int mapSize, const char
 		for (int x = 0; x < mapSize; x++)
 		{
 			int y = (*terrain)->GetHeight(x, z);
-			verts.push_back(x * scale.x);
-			verts.push_back(y * scale.y);
-			verts.push_back(z * scale.z);
+			verts.push_back(x);
+			verts.push_back(y);
+			verts.push_back(z);
 			normals.push_back(0);
 			normals.push_back(1);
 			normals.push_back(0);
@@ -367,8 +367,8 @@ void ResourceFactory::LoadTerrain(const char * filename, int mapSize, const char
 	AddDataToVAO(2, 3, normals);
 	UnbindVAO();
 
-	Texture2D * terrainTexture = new Texture2D();
-	LoadTexture(texture, texSize, texSize, &terrainTexture);
-	(*terrain)->SetTexture(&terrainTexture);
+	//Texture2D * terrainTexture = new Texture2D();
+	//LoadTexture(texture, texSize, texSize, &terrainTexture);
+	(*terrain)->SetTextures(terrainTextures);
 
 }

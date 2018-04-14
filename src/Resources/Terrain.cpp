@@ -2,7 +2,7 @@
 
 Terrain::Terrain()
 {
-	m_texture = nullptr;
+	m_textures = nullptr;
 }
 
 Terrain::Terrain(const Terrain & other)
@@ -40,9 +40,9 @@ void Terrain::SetVertexCount(int count)
 	m_vertexCount = count;
 }
 
-void Terrain::SetTexture(Texture2D ** texture)
+void Terrain::SetTextures(TerrainTextures ** texture)
 {
-	m_texture = (*texture);
+	m_textures = (*texture);
 }
 
 glm::vec3 Terrain::GetScale()
@@ -65,9 +65,9 @@ GLuint Terrain::GetVAOID()
 	return m_vaoId;
 }
 
-Texture2D * Terrain::GetTexture()
+TerrainTextures * Terrain::GetTextures()
 {
-	return m_texture;
+	return m_textures;
 }
 
 bool Terrain::InBounds(int xPos, int zPos)
@@ -93,5 +93,6 @@ float Terrain::GetRelativeHeight(float xPos, float zPos)
 	float sideOneAvg = 0, sideTwoAvg = 0;
 	sideOneAvg = (GetHeight(floor(xPos), floor(zPos)) + GetHeight(ceil(xPos), floor(zPos))) / 2;
 	sideTwoAvg = (GetHeight(floor(xPos), ceil(zPos)) + GetHeight(ceil(xPos), ceil(zPos))) / 2;
+
 	return (sideOneAvg + sideTwoAvg) / 2;
 }

@@ -27,6 +27,10 @@ void TerrainShader::GetAllUniforms()
 	m_location_projectionMatrix = GetUniform("projectionMatrix");
 	m_location_transformationMatrix = GetUniform("transformationMatrix");
 	m_location_viewMatrix = GetUniform("viewMatrix");
+	m_location_baseTexture = GetUniform("baseTexture");
+	m_location_rTexture = GetUniform("rTexture");
+	m_location_gTexture = GetUniform("gTexture");
+	m_location_bTexture = GetUniform("bTexture");
 }
 
 void TerrainShader::LoadProjectionMatrix(glm::mat4x4 projectionMatrix)
@@ -43,4 +47,12 @@ void TerrainShader::LoadViewMatrix(Camera * camera)
 {
 	glm::mat4x4 viewMatrix = MathHelper::CreateViewMatrix(camera);
 	LoadMatrix4(m_location_viewMatrix, viewMatrix);
+}
+
+void TerrainShader::LoadTextures()
+{
+	LoadInt(m_location_baseTexture, 0);
+	LoadInt(m_location_rTexture, 1);
+	LoadInt(m_location_gTexture, 2);
+	LoadInt(m_location_bTexture, 3);
 }

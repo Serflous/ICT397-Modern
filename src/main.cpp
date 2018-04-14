@@ -6,6 +6,7 @@
 #include "Rendering/Renderer.h"
 #include "GameObjects/Scenes/Scene.h"
 #include "Resources/Terrain.h"
+#include "Resources/TerrainTextures.h"
 
 int main(int argc, char ** argv)
 {
@@ -13,9 +14,14 @@ int main(int argc, char ** argv)
 	ResourceFactory * resourceFactory = ResourceFactory::GetInstance();
 	Texture2D * rockTexture = nullptr;
 	ModelOBJ * rockModel = nullptr;
-	Camera * camera = new Camera(0, 0, 0);
+	Camera * camera = new Camera(512, 0, 512);
 	Scene * scene = new Scene();
 	Terrain * terrain = new Terrain();
+	Texture2D * baseTextureTerrain = nullptr;
+	Texture2D * rockTextureTerrain = nullptr;
+	Texture2D * rockIceTextureTerrain = nullptr;
+	Texture2D * dirtTextureTerrain = nullptr;
+	TerrainTextures * terrainTextures = new TerrainTextures();
 	
 	window->InitializeGlutWindow(&argc, argv);
 
@@ -23,7 +29,16 @@ int main(int argc, char ** argv)
 
 	resourceFactory->LoadTexture("res/Textures/kartRedBaked.raw", 2048, 2048, &rockTexture);
 	resourceFactory->LoadOBJ("res/Models/kartRedBaked.obj", &rockModel, rockTexture);
-	resourceFactory->LoadTerrain("res/Heightmaps/heightmapLarge.raw", 1024, "res/textures/Terrain.raw", 128, &terrain, glm::vec3(1, 0.8f, 1));
+	resourceFactory->LoadTexture("res/Textures/Terrain.raw", 128, 128, &baseTextureTerrain);
+	resourceFactory->LoadTexture("res/Textures/Rock.raw", 128, 128, &rockTextureTerrain);
+	resourceFactory->LoadTexture("res/Textures/RockIce.raw", 128, 128, &rockIceTextureTerrain);
+	resourceFactory->LoadTexture("res/Textures/Dirt.raw", 128, 128, &dirtTextureTerrain);
+
+	terrainTextures->SetBaseTexture(&baseTextureTerrain);
+	terrainTextures->AddTexture(&dirtTextureTerrain);
+	terrainTextures->AddTexture(&rockTextureTerrain);
+	terrainTextures->AddTexture(&rockIceTextureTerrain);
+	resourceFactory->LoadTerrain("res/Heightmaps/heightmapLarge.raw", 1024, &terrain, &terrainTextures, glm::vec3(1, 0.6f, 1));
 	
 	renderer->Init();
 

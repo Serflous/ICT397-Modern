@@ -31,7 +31,7 @@ private:
 	float m_speed = 0.3f;
 	float m_rotSpeed = 0.1f;
 	int m_lastMouseX = 0, m_lastMouseY = 0;
-	const float m_camViewHeight = -1;
+	const float m_camViewHeight = 2;
 };
 
 #endif
