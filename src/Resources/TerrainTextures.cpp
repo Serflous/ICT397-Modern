@@ -29,6 +29,11 @@ void TerrainTextures::AddTexture(Texture2D ** texture)
 	}
 }
 
+void TerrainTextures::SetDetailMap(Texture2D ** detailMap)
+{
+	m_detailMap = (*detailMap);
+}
+
 Texture2D * TerrainTextures::GetBaseTexture()
 {
 	return m_baseTexture;
@@ -41,4 +46,9 @@ Texture2D * TerrainTextures::GetTexture(int idx)
 		return m_textures[idx];
 	}
 	return nullptr;
+}
+
+Texture2D * TerrainTextures::GetDetailMap()
+{
+	return m_detailMap;
 }

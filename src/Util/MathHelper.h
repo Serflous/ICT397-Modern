@@ -14,7 +14,7 @@ class Camera;
 class MathHelper
 {
 public:
-	static glm::mat4x4 CreateTransformationMatrix(glm::vec3 translation, float rx, float ry, float rz, glm::vec3 scale);
+	static glm::mat4x4 CreateTransformationMatrix(glm::vec3 translation, glm::vec3 rotation, glm::vec3 scale);
 	static glm::mat4x4 CreateViewMatrix(Camera * cam);
 	static bool IsInteger(float num);
 };

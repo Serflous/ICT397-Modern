@@ -2,6 +2,7 @@
 #define TERRAINSHADER_H
 
 #include <glm/mat4x4.hpp>
+#include <glm/vec3.hpp>
 
 #include "ShaderBase.h"
 #include "../GameObjects/Camera.h"
@@ -21,6 +22,7 @@ public:
 	void LoadTransformationMatrix(glm::mat4x4 transformationMatrix);
 	void LoadViewMatrix(Camera * cam);
 	void LoadTextures();
+	void LoadLight(glm::vec3 lightColor);
 
 private:
 
@@ -32,6 +34,8 @@ private:
 	GLuint m_location_rTexture;
 	GLuint m_location_gTexture;
 	GLuint m_location_bTexture;
+	GLuint m_location_detailMapTexture;
+	GLuint m_location_lightColor;
 };
 
 #endif

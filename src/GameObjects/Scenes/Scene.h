@@ -5,6 +5,7 @@
 
 #include "../Camera.h"
 #include "../../Rendering/Renderer.h"
+#include "../GameObject.h"
 #include "../../Resources/ModelOBJ.h"
 #include "../../Resources/Terrain.h"
 
@@ -20,7 +21,7 @@ public:
 	~Scene();
 
 	void SetCamera(Camera * camera);
-	void AddModelOBJ(ModelOBJ * model);
+	void AddGameObject(GameObject * model);
 	void SetRenderer(Renderer * renderer);
 	void SetTerrain(Terrain * terrain);
 
@@ -29,7 +30,7 @@ private:
 
 private:
 	Camera * m_camera;
-	std::vector<ModelOBJ*> m_models;
+	std::vector<GameObject*> m_gameObjects;
 	Renderer * m_renderer;
 	Terrain * m_terrain;
 };

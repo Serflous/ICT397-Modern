@@ -40,9 +40,10 @@ void Renderer::PrepareRender()
 }
 
 
-void Renderer::RenderModel(ModelOBJ * model)
+void Renderer::RenderGameObject(GameObject * obj)
 {
 	m_staticShader->Start();
+	ModelOBJ * model = obj->GetModel();
 	glBindVertexArray(model->GetVAOID());
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
@@ -50,7 +51,7 @@ void Renderer::RenderModel(ModelOBJ * model)
 	//Transformation matrix
 
 	glEnable(GL_TEXTURE_2D);
-	glm::mat4x4 transformationMatrix = MathHelper::CreateTransformationMatrix(glm::vec3(0, 0, 0), 0, 90, 0, glm::vec3(1, 1, 1));
+	glm::mat4x4 transformationMatrix = obj->GetTransformationMatrix();//MathHelper::CreateTransformationMatrix(obj->GetPosition(), obj->GetRotation(), obj->GetScale());
 	
 	StaticShader * shader = (StaticShader*)m_staticShader;
 	((StaticShader*)m_staticShader)->LoadTransformationMatrix(transformationMatrix);
@@ -90,11 +91,12 @@ void Renderer::RenderTerrain(Terrain * terrain)
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
+	glEnableVertexAttribArray(3);
 	((TerrainShader*)m_terrainShader)->LoadTextures();
-	//Transformation matrix
+	((TerrainShader*)m_terrainShader)->LoadLight(glm::vec3(1.0f, 1.0f, 1.0f));
 
 	glEnable(GL_TEXTURE_2D);
-	glm::mat4x4 transformationMatrix = MathHelper::CreateTransformationMatrix(glm::vec3(0, 0, 0), 0, 0, 0, terrain->GetScale());
+	glm::mat4x4 transformationMatrix = MathHelper::CreateTransformationMatrix(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), terrain->GetScale());
 
 	TerrainShader * shader = (TerrainShader*)m_terrainShader;
 	((TerrainShader*)m_terrainShader)->LoadTransformationMatrix(transformationMatrix);
@@ -108,10 +110,13 @@ void Renderer::RenderTerrain(Terrain * terrain)
 	textures->GetTexture(1)->BindTexture();
 	glActiveTexture(GL_TEXTURE3);
 	textures->GetTexture(2)->BindTexture();
+	glActiveTexture(GL_TEXTURE4);
+	textures->GetDetailMap()->BindTexture();
 	glDrawElements(GL_TRIANGLES, terrain->GetVertexCount(), GL_UNSIGNED_INT, 0);
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
+	glDisableVertexAttribArray(3);
 	glBindVertexArray(0);
 	m_terrainShader->Stop();
 }

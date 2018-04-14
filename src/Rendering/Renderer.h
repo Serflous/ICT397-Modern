@@ -10,11 +10,13 @@
 #include "../Shaders/ShaderBase.h"
 #include "../Shaders/StaticShader.h"
 #include "../Shaders/TerrainShader.h"
+#include "../GameObjects/GameObject.h"
 #include "../Resources/ModelOBJ.h"
 #include "../Resources/Terrain.h"
 #include "../Util/MathHelper.h"
 
 class Terrain;
+class GameObject;
 class Renderer
 {
 public:
@@ -25,7 +27,7 @@ public:
 	void Init();
 
 	void PrepareRender();
-	void RenderModel(ModelOBJ * model);
+	void RenderGameObject(GameObject * obj);
 	void RenderTerrain(Terrain * terrain);
 	void SetView(Camera * camera);
 private:

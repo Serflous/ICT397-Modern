@@ -20,9 +20,9 @@ void Scene::SetCamera(Camera * camera)
 	m_camera = camera;
 }
 
-void Scene::AddModelOBJ(ModelOBJ * model)
+void Scene::AddGameObject(GameObject * model)
 {
-	m_models.push_back(model);
+	m_gameObjects.push_back(model);
 }
 
 void Scene::SetRenderer(Renderer * renderer)
@@ -45,10 +45,10 @@ void Scene::RenderScene()
 	m_camera->SetHeight(relHeight);
 	m_renderer->SetView(m_camera);
 	m_renderer->RenderTerrain(m_terrain);
-	std::vector<ModelOBJ*>::iterator modelIter;
-	for (modelIter = m_models.begin(); modelIter != m_models.end(); modelIter++)
+	std::vector<GameObject*>::iterator objIter;
+	for (objIter = m_gameObjects.begin(); objIter != m_gameObjects.end(); objIter++)
 	{
-		m_renderer->RenderModel(*modelIter);
+		m_renderer->RenderGameObject(*objIter);
 	}
 }
 

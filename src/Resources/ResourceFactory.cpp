@@ -327,6 +327,7 @@ void ResourceFactory::LoadTerrain(const char * filename, int mapSize, Terrain **
 
 	std::vector<float> verts;
 	std::vector<float> tex;
+	std::vector<float> detailTex;
 	std::vector<float> normals;
 	std::vector<int> indicies;
 
@@ -341,11 +342,14 @@ void ResourceFactory::LoadTerrain(const char * filename, int mapSize, Terrain **
 			verts.push_back(x);
 			verts.push_back(y);
 			verts.push_back(z);
+			
 			normals.push_back(0);
 			normals.push_back(1);
 			normals.push_back(0);
-			tex.push_back((float)x);// / ((float)mapSize - 1));
-			tex.push_back((float)z);// / ((float)mapSize - 1));
+			tex.push_back((float)x / ((float)mapSize - 1));
+			tex.push_back((float)z / ((float)mapSize - 1));
+			detailTex.push_back((float)x);
+			detailTex.push_back((float)z);
 		}
 
 	for(int z = 0; z < mapSize -1; z++)
@@ -365,6 +369,7 @@ void ResourceFactory::LoadTerrain(const char * filename, int mapSize, Terrain **
 	AddDataToVAO(0, 3, verts);
 	AddDataToVAO(1, 2, tex);
 	AddDataToVAO(2, 3, normals);
+	AddDataToVAO(3, 2, detailTex);
 	UnbindVAO();
 
 	//Texture2D * terrainTexture = new Texture2D();
