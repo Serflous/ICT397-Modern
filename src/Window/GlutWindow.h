@@ -47,6 +47,8 @@ private:
 	Scene * m_scene;
 	int m_winX, m_winY;
 
+	bool m_wireframe = false;
+
 	static GlutWindow * m_instance;
 };
 #endif

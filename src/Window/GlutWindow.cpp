@@ -68,17 +68,17 @@ int GlutWindow::InitializeGlutWindow(int * argc, char ** argv)
 
 void GlutWindow::DrawCallback()
 {
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	//glMatrixMode(GL_MODELVIEW);
-	//glLoadIdentity();
-	if (InputManager::GetInstance()->GetKeyState(']') == KS_KEY_PRESSED)
+	if (InputManager::GetInstance()->GetKeyState('k') == KS_KEY_PRESSED)
 	{
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		m_wireframe = !m_wireframe;
+		if(m_wireframe)
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		else
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
-	if (InputManager::GetInstance()->GetKeyState('\'') == KS_KEY_PRESSED)
+	if (InputManager::GetInstance()->GetKeyState('x') == KS_KEY_PRESSED)
 	{
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glutExit();
 	}
 	m_scene->RenderScene();
 
@@ -87,13 +87,7 @@ void GlutWindow::DrawCallback()
 
 void GlutWindow::ReshapeCallback(int w, int h)
 {
-	//float aspectRatio = w / h;
-
-	//glMatrixMode(GL_PROJECTION);
-	//glLoadIdentity();
 	glViewport(0, 0, w, h);
-	//gluPerspective(45, aspectRatio, 0.1f, 10000);
-	//glMatrixMode(GL_MODELVIEW);
 	m_winX = w;
 	m_winY = h;
 }

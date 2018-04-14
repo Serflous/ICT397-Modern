@@ -106,6 +106,14 @@ void Camera::Move(std::vector<AABB> boxes)
 
 	if(!hasCollided)
 		m_position = nextPosition;
+
+	if (InputManager::GetInstance()->GetKeyState(' ') == KS_KEY_PRESSED)
+	{
+		std::cout << "Cam Position;" << std::endl;
+		std::cout << "X: " << m_position.x << std::endl;
+		std::cout << "Y: " << m_position.y << std::endl;
+		std::cout << "Z: " << m_position.z << std::endl << std::endl;
+	}
 }
 
 void Camera::SetHeight(float height)
