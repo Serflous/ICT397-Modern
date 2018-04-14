@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <limits>
 #include <glm/vec3.hpp>
 #include <glm/vec2.hpp>
 #include <GL/glew.h>
@@ -14,8 +15,10 @@
 #include "ModelOBJ.h"
 #include "Terrain.h"
 #include "../Shaders/ShaderBase.h"
+#include "../GameObjects/GameObject.h"
 
 class Terrain;
+class GameObject;
 class ResourceFactory
 {
 public:
@@ -25,6 +28,7 @@ public:
 	void LoadOBJ(const char * filename, ModelOBJ ** model, Texture2D * texture);
 	void LoadShader(const char * vertFilename, const char * fragFilename, ShaderBase ** shader);
 	void LoadTerrain(const char * heightmap, int mapSize, Terrain ** terrain, TerrainTextures ** terrainTextures, glm::vec3 scale);
+	void LoadGameObject(ModelOBJ * model, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, GameObject ** object);
 
 private:
 	ResourceFactory();

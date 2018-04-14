@@ -46,6 +46,11 @@ void GameObject::SetScale(glm::vec3 scale)
 	m_scale = scale;
 }
 
+void GameObject::SetBoundingBox(AABB box)
+{
+	m_boundingBox = box;
+}
+
 glm::vec3 GameObject::GetPosition()
 {
 	return m_position;
@@ -59,4 +64,14 @@ glm::vec3 GameObject::GetRotation()
 glm::vec3 GameObject::GetScale()
 {
 	return m_scale;
+}
+
+AABB GameObject::GetBoundingBox()
+{
+	return m_boundingBox;
+}
+
+void GameObject::UpdateBoundingBoxWithPosition()
+{
+	m_boundingBox.SetLocalCoordinates(m_position);
 }

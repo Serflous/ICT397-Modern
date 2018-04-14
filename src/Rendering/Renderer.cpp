@@ -52,7 +52,7 @@ void Renderer::RenderGameObject(GameObject * obj)
 
 	glEnable(GL_TEXTURE_2D);
 	glm::mat4x4 transformationMatrix = obj->GetTransformationMatrix();//MathHelper::CreateTransformationMatrix(obj->GetPosition(), obj->GetRotation(), obj->GetScale());
-	
+
 	StaticShader * shader = (StaticShader*)m_staticShader;
 	((StaticShader*)m_staticShader)->LoadTransformationMatrix(transformationMatrix);
 

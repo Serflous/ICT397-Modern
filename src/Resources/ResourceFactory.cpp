@@ -152,6 +152,7 @@ void ResourceFactory::LoadOBJ(const char * filename, ModelOBJ ** model, Texture2
 	int vaoId = LoadToVAO(verticesArray, textureArray, normalArray, indicies);
 	*model = new ModelOBJ(vaoId, indicies.size());
 	(*model)->SetTexture(texture);
+	(*model)->SetVertexes(verticies);
 
 	cout << "OBJ Model loaded: " << filename << " with ID-" << vaoId << " and " << (*model)->GetVertexCount() << " verts" << endl;
 }
@@ -376,4 +377,42 @@ void ResourceFactory::LoadTerrain(const char * filename, int mapSize, Terrain **
 	//LoadTexture(texture, texSize, texSize, &terrainTexture);
 	(*terrain)->SetTextures(terrainTextures);
 
+}
+
+void ResourceFactory::LoadGameObject(ModelOBJ * model, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, GameObject ** object)
+{
+	(*object) = new GameObject();
+	(*object)->SetModel(&model);
+	(*object)->SetPosition(position);
+	(*object)->SetRotation(rotation);
+	(*object)->SetScale(scale);
+
+	float minX, minY, minZ, maxX, maxY, maxZ;
+	minX = minY = minZ = std::numeric_limits<float>::max();
+	maxX = maxY = maxZ = std::numeric_limits<float>::min();
+
+	std::vector<glm::vec3>::iterator iter;
+	std::vector<glm::vec3> verts = model->GetVertexes();
+	for (iter = verts.begin(); iter != verts.end(); iter++)
+	{
+		glm::vec3 vert = (*iter);
+		if (vert.x < minX)
+			minX = vert.x;
+		if (vert.y < minY)
+			minY = vert.y;
+		if (vert.z < minZ)
+			minZ = vert.z;
+		if (vert.x > maxX)
+			maxX = vert.x;
+		if (vert.y > maxY)
+			maxY = vert.y;
+		if (vert.z > maxZ)
+			maxZ = vert.z;
+	}
+
+	AABB box;
+	box.SetMin(glm::vec3(minX, minY, minZ));
+	box.SetMax(glm::vec3(maxX, maxY, maxZ));
+
+	(*object)->SetBoundingBox(box);
 }

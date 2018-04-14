@@ -41,7 +41,7 @@ float Camera::GetYaw()
 	return m_yaw;
 }
 
-void Camera::Move()
+void Camera::Move(std::vector<AABB> boxes)
 {
 	int mouseX, mouseY;
 	int winX, winY;
@@ -65,35 +65,47 @@ void Camera::Move()
 		m_pitch = -90;
 	glutWarpPointer(winX / 2, winY / 2);
 
+	glm::vec3 nextPosition = m_position;
+
 	if (InputManager::GetInstance()->GetKeyState('w') == KS_KEY_PRESSED)
 	{
-		m_position.x += (float)(sin(glm::radians(m_yaw))) * m_speed;
-		m_position.z -= (float)(cos(glm::radians(m_yaw))) * m_speed;
+		nextPosition.x += (float)(sin(glm::radians(m_yaw))) * m_speed;
+		nextPosition.z -= (float)(cos(glm::radians(m_yaw))) * m_speed;
 	}
 	if (InputManager::GetInstance()->GetKeyState('s') == KS_KEY_PRESSED)
 	{
-		m_position.x -= (float)(sin(glm::radians(m_yaw))) * m_speed;
-		m_position.z += (float)(cos(glm::radians(m_yaw))) * m_speed;
+		nextPosition.x -= (float)(sin(glm::radians(m_yaw))) * m_speed;
+		nextPosition.z += (float)(cos(glm::radians(m_yaw))) * m_speed;
 	}
 	if (InputManager::GetInstance()->GetKeyState('a') == KS_KEY_PRESSED)
 	{
-		m_position.x -= (float)(cos(glm::radians(m_yaw))) * m_speed;
-		m_position.z -= (float)(sin(glm::radians(m_yaw))) * m_speed;
+		nextPosition.x -= (float)(cos(glm::radians(m_yaw))) * m_speed;
+		nextPosition.z -= (float)(sin(glm::radians(m_yaw))) * m_speed;
 	}
 	if (InputManager::GetInstance()->GetKeyState('d') == KS_KEY_PRESSED)
 	{
-		m_position.x += (float)(cos(glm::radians(m_yaw))) * m_speed;
-		m_position.z += (float)(sin(glm::radians(m_yaw))) * m_speed;
+		nextPosition.x += (float)(cos(glm::radians(m_yaw))) * m_speed;
+		nextPosition.z += (float)(sin(glm::radians(m_yaw))) * m_speed;
 	}
-	
-	if (InputManager::GetInstance()->GetKeyState(' ') == KS_KEY_PRESSED)
+
+	bool hasCollided = false;
+	AABB myBox;
+	myBox.SetLocalCoordinates(nextPosition);
+	myBox.SetMin(glm::vec3(-0.5f, -255, -0.5f));
+	myBox.SetMax(glm::vec3(0.5f, 255, 0.5f));
+	std::vector<AABB>::iterator iter;
+	for (iter = boxes.begin(); iter != boxes.end(); iter++)
 	{
-		m_position.y += m_speed;
+		AABB box = (*iter);
+		if (myBox.IsColliding(box))
+		{
+			hasCollided = true;
+			break;
+		}
 	}
-	if (InputManager::GetInstance()->GetKeyState('x') == KS_KEY_PRESSED)
-	{
-		m_position.y -= m_speed;
-	}
+
+	if(!hasCollided)
+		m_position = nextPosition;
 }
 
 void Camera::SetHeight(float height)

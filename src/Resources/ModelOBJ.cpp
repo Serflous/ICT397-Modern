@@ -40,6 +40,11 @@ void ModelOBJ::SetTexture(Texture2D * texture)
 	m_texture = texture;
 }
 
+void ModelOBJ::SetVertexes(std::vector<glm::vec3> verts)
+{
+	m_verts = verts;
+}
+
 int ModelOBJ::GetVAOID()
 {
 	return m_vaoId;
@@ -53,4 +58,9 @@ int ModelOBJ::GetVertexCount()
 Texture2D * ModelOBJ::GetTexture()
 {
 	return m_texture;
+}
+
+std::vector<glm::vec3> ModelOBJ::GetVertexes()
+{
+	return m_verts;
 }

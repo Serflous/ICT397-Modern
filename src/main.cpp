@@ -9,6 +9,8 @@
 #include "Resources/TerrainTextures.h"
 #include "GameObjects/StaticObject.h"
 
+#include "Collision/AABB.h"
+
 int main(int argc, char ** argv)
 {
 	GlutWindow * window = GlutWindow::GetInstance();
@@ -22,8 +24,8 @@ int main(int argc, char ** argv)
 	Texture2D * dirtTextureTerrain = nullptr;
 	Texture2D * detailMap = nullptr;
 	TerrainTextures * terrainTextures = new TerrainTextures();
-	StaticObject * rock = new StaticObject();
-	StaticObject * rockTwo = new StaticObject();
+	GameObject * rock = nullptr;
+	GameObject * rockTwo = nullptr;
 	Texture2D * rockModelTexture = nullptr;
 	ModelOBJ * rockModel = nullptr;
 	
@@ -46,22 +48,15 @@ int main(int argc, char ** argv)
 	terrainTextures->SetDetailMap(&detailMap);
 	resourceFactory->LoadTerrain("res/Heightmaps/heightmapLarge.raw", 1024, &terrain, &terrainTextures, glm::vec3(1, 0.6f, 1));
 	
-	rock->SetModel(&rockModel);
-	rock->SetPosition(glm::vec3(512, 57, 512));
-	rock->SetRotation(glm::vec3(0, 90, 0));
-	rock->SetScale(glm::vec3(1, 1, 1));
-
-	rockTwo->SetModel(&rockModel);
-	rockTwo->SetPosition(glm::vec3(512, 60, 512));
-	rockTwo->SetRotation(glm::vec3(0, 90, 0));
-	rockTwo->SetScale(glm::vec3(1, 1, 1));
+	resourceFactory->LoadGameObject(rockModel, glm::vec3(520, 57, 512), glm::vec3(0, 90, 0), glm::vec3(1, 1, 1), &rock);
+	resourceFactory->LoadGameObject(rockModel, glm::vec3(512, 60, 489), glm::vec3(45, 0, 0), glm::vec3(1, 1, 1), &rockTwo);
+	//resourceFactory->LoadGameObject(rockModel, glm::vec3(512, 57, 512), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), &rockTwo);
 
 	renderer->Init();
 
 	scene->SetCamera(camera);
 	scene->SetRenderer(renderer);
 	scene->SetTerrain(terrain);
-	//scene->AddModelOBJ(rockModel);
 	scene->AddGameObject(rock);
 	scene->AddGameObject(rockTwo);
 

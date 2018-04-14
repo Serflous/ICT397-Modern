@@ -4,9 +4,11 @@
 #include <glm/vec3.hpp>
 #include <glm/glm.hpp>
 #include <GL/glew.h>
+#include <vector>
 
 #include "../Window/GlutWindow.h"
 #include "../Input/InputManager.h"
+#include "../Collision/AABB.h"
 
 class Camera
 {
@@ -21,7 +23,7 @@ public:
 	float GetRoll();
 	float GetCamViewHeight();
 
-	void Move();
+	void Move(std::vector<AABB> boxes);
 	void SetHeight(float height);
 private:
 
