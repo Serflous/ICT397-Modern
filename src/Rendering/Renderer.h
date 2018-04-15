@@ -17,20 +17,54 @@
 
 class Terrain;
 class GameObject;
+
+	/**
+	 * Class for rendering objects to OpenGL.
+	 */
 class Renderer
 {
 public:
+		/**
+		 * Constructor
+		 */
 	Renderer();
+		/**
+		 * Copy constructor
+		 */
 	Renderer(const Renderer & other);
+		/**
+		 * Destructor
+		 */
 	~Renderer();
 
+		/**
+		 * Initializes the renderer. Prepares the shaders
+		 */
 	void Init();
 
+		/**
+		 * Prepares for rendering. Clearing the screen and enabling options.
+		 */
 	void PrepareRender();
+		/**
+		 * Renders a GameObject.
+		 * @param[in] obj The object to draw to the screen.
+		 */
 	void RenderGameObject(GameObject * obj);
+		/**
+		 * Renders a Terrain object to the screen
+		 * @param[in] terrain The terrain to draw
+		 */
 	void RenderTerrain(Terrain * terrain);
+		/**
+		 * Sets the view to the view of the camera.
+		 * @param[in] camera The camera.
+		 */
 	void SetView(Camera * camera);
 private:
+		/**
+		 * Creates a projection matrix using GLM
+		 */
 	void CreateProjectionMatrix();
 private:
 	ShaderBase * m_staticShader;

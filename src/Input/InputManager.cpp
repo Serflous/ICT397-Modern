@@ -47,8 +47,6 @@ void InputManager::KeyCallback(int key, bool press)
 
 void InputManager::MouseCallback(int button, int state, int x, int y)
 {
-	//m_deltaX = m_x - x;
-	//m_deltaY = m_y - y;
 	m_x = x;
 	m_y = y;
 	m_buttonState[button] = state == GLUT_DOWN ? BS_BUTTON_DOWN : BS_BUTTON_UP;
@@ -57,11 +55,8 @@ void InputManager::MouseCallback(int button, int state, int x, int y)
 
 void InputManager::MouseMotionCallback(int x, int y)
 {
-	//m_deltaX = m_x - x;
-	//m_deltaY = m_y - y;
 	m_x = x;
 	m_y = y;
-	//std::cout << "DeltaX: " << m_deltaX << " DeltaY: " << m_deltaY << std::endl;
 }
 
 void InputManager::GetMousePosition(int & x, int & y)
