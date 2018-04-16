@@ -41,8 +41,8 @@ void Scene::RenderScene()
 		boxes.push_back((*objIter)->GetBoundingBox());
 	}
 	m_camera->Move(boxes);
-	int xPos = m_camera->GetPosition().x / m_terrain->GetScale().x;
-	int zPos = m_camera->GetPosition().z / m_terrain->GetScale().z;
+	float xPos = m_camera->GetPosition().x / m_terrain->GetScale().x;
+	float zPos = m_camera->GetPosition().z / m_terrain->GetScale().z;
 	float relHeight = m_terrain->GetRelativeHeight(xPos, zPos);
 	relHeight = relHeight * ((float)m_terrain->GetScale().y) + (float)m_camera->GetCamViewHeight();
 	m_camera->SetHeight(relHeight);

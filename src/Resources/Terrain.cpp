@@ -90,9 +90,22 @@ int Terrain::GetVertexCount()
 
 float Terrain::GetRelativeHeight(float xPos, float zPos)
 {
-	float sideOneAvg = 0, sideTwoAvg = 0;
+	double fract = 0;
+	float xPercentage = modf(xPos, &fract);
+	float zPercentage = modf(zPos, &fract);
+
+	float sideOneHeightX = GetHeight(floor(xPos), floor(zPos));
+	float sideOneHeightZ = GetHeight(ceil(xPos), floor(zPos));
+	float sideOneLerped = (1 - xPercentage) * sideOneHeightX + xPercentage * sideOneHeightZ;
+
+	float sideTwoHeightX = GetHeight(floor(xPos), ceil(zPos));
+	float sideTwoHeightZ = GetHeight(ceil(xPos), ceil(zPos));
+	float sideTwoLerped = (1 - xPercentage) * sideTwoHeightX + xPercentage * sideTwoHeightZ;
+
+	return (1 - zPercentage) * sideOneLerped + zPercentage * sideTwoLerped;
+
+	/*float sideOneAvg = 0, sideTwoAvg = 0;
 	sideOneAvg = (GetHeight(floor(xPos), floor(zPos)) + GetHeight(ceil(xPos), floor(zPos))) / 2;
 	sideTwoAvg = (GetHeight(floor(xPos), ceil(zPos)) + GetHeight(ceil(xPos), ceil(zPos))) / 2;
-
-	return (sideOneAvg + sideTwoAvg) / 2;
+	return (sideOneAvg + sideTwoAvg) / 2;*/
 }
