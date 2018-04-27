@@ -10,6 +10,7 @@
 
 #include "../Input/InputManager.h"
 #include "../GameObjects/Scenes/Scene.h"
+#include "../Util/IniLoader.h"
 
 class Scene;
 
@@ -30,7 +31,7 @@ public:
 		 * @param[in] argc The first entry point parameter
 		 * @param[in] argv The second entry point parameter
 		 */
-	int InitializeGlutWindow(int * argc, char ** argv);
+	int InitializeGlutWindow(int * argc, char ** argv, IniLoader loader);
 		/**
 		 * Begins the main game loop with the specified scene as the initial scene.
 		 * @param[in] scene The scene to begin with.
@@ -128,11 +129,6 @@ private:
 		 */
 	GlutWindow(const GlutWindow & other);
 private:
-	const int INIT_WINDOW_SIZE_X = 1280;
-	const int INIT_WINDOW_SIZE_Y = 720;
-	const int INIT_WINDOW_POS_X = -1;
-	const int INIT_WINDOW_POS_Y = -1;
-	const char * WINDOW_TITLE = "ICT397 Game";
 
 	Scene * m_scene;
 	int m_winX, m_winY;

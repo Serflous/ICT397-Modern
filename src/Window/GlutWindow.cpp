@@ -26,15 +26,17 @@ GlutWindow * GlutWindow::GetInstance()
 	return m_instance;
 }
 
-int GlutWindow::InitializeGlutWindow(int * argc, char ** argv)
+int GlutWindow::InitializeGlutWindow(int * argc, char ** argv, IniLoader loader)
 {
 	glutInit(argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
-	glutInitWindowPosition(INIT_WINDOW_POS_X, INIT_WINDOW_POS_Y);
-	glutInitWindowSize(INIT_WINDOW_SIZE_X, INIT_WINDOW_SIZE_Y);
-	m_winX = INIT_WINDOW_SIZE_X;
-	m_winY = INIT_WINDOW_SIZE_Y;
-	glutCreateWindow(WINDOW_TITLE);
+	m_winX = atoi(loader.GetProperty("engine_window/width"));
+	m_winY = atoi(loader.GetProperty("engine_window/height"));
+	int initPosX = atoi(loader.GetProperty("engine_window/posX"));
+	int initPosY = atoi(loader.GetProperty("engine_window/posY"));
+	glutInitWindowPosition(initPosX, initPosY);
+	glutInitWindowSize(atoi(loader.GetProperty("engine_window/width")), atoi(loader.GetProperty("engine_window/height")));//INIT_WINDOW_SIZE_X, INIT_WINDOW_SIZE_Y);
+	glutCreateWindow(loader.GetProperty("engine_window/title"));//WINDOW_TITLE);
 
 	glewExperimental = GL_TRUE;
 	GLenum err = glewInit();
