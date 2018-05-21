@@ -6,7 +6,7 @@
 #include "../Camera.h"
 #include "../../Rendering/Renderer.h"
 #include "../GameObject.h"
-#include "../../Resources/ModelOBJ.h"
+#include "../../Resources/Modelling/ModelOBJ.h"
 #include "../../Resources/Terrain.h"
 
 class Camera;
@@ -57,6 +57,7 @@ public:
 		 * Renders the current scene.
 		 */
 	void RenderScene();
+	void UpdateScene(int deltaTime);
 private:
 
 private:

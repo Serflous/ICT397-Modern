@@ -10,8 +10,9 @@
 #include "../Shaders/ShaderBase.h"
 #include "../Shaders/StaticShader.h"
 #include "../Shaders/TerrainShader.h"
+#include "../Shaders/AnimatedShader.h"
 #include "../GameObjects/GameObject.h"
-#include "../Resources/ModelOBJ.h"
+#include "../Resources/Modelling/ModelOBJ.h"
 #include "../Resources/Terrain.h"
 #include "../Util/MathHelper.h"
 
@@ -69,6 +70,7 @@ private:
 private:
 	ShaderBase * m_staticShader;
 	ShaderBase * m_terrainShader;
+	ShaderBase * m_animatedShader;
 	glm::mat4x4 m_projectionMatrix;
 	const float FOV = 70.0f;
 	const float NEAR_PLANE = 0.1f;

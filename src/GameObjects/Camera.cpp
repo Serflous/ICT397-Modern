@@ -41,7 +41,7 @@ float Camera::GetYaw()
 	return m_yaw;
 }
 
-void Camera::Move(std::vector<AABB> boxes)
+void Camera::Move(std::vector<AABB> boxes, int deltaTime)
 {
 	int mouseX, mouseY;
 	int winX, winY;
@@ -52,8 +52,8 @@ void Camera::Move(std::vector<AABB> boxes)
 	int deltaX = mouseX - (winX / 2);
 	int deltaY = mouseY - (winY / 2);
 
-	m_yaw += deltaX * m_rotSpeed;
-	m_pitch += deltaY * m_rotSpeed;
+	m_yaw += deltaX * m_rotSpeed * deltaTime;
+	m_pitch += deltaY * m_rotSpeed * deltaTime;
 
 	if (m_yaw > 360)
 		m_yaw = 0;
@@ -69,30 +69,30 @@ void Camera::Move(std::vector<AABB> boxes)
 
 	if (InputManager::GetInstance()->GetKeyState('w') == KS_KEY_PRESSED)
 	{
-		nextPosition.x += (float)(sin(glm::radians(m_yaw))) * m_speed;
-		nextPosition.z -= (float)(cos(glm::radians(m_yaw))) * m_speed;
+		nextPosition.x += (float)(sin(glm::radians(m_yaw))) * m_speed * deltaTime;
+		nextPosition.z -= (float)(cos(glm::radians(m_yaw))) * m_speed * deltaTime;
 	}
 	if (InputManager::GetInstance()->GetKeyState('s') == KS_KEY_PRESSED)
 	{
-		nextPosition.x -= (float)(sin(glm::radians(m_yaw))) * m_speed;
-		nextPosition.z += (float)(cos(glm::radians(m_yaw))) * m_speed;
+		nextPosition.x -= (float)(sin(glm::radians(m_yaw))) * m_speed * deltaTime;
+		nextPosition.z += (float)(cos(glm::radians(m_yaw))) * m_speed * deltaTime;
 	}
 	if (InputManager::GetInstance()->GetKeyState('a') == KS_KEY_PRESSED)
 	{
-		nextPosition.x -= (float)(cos(glm::radians(m_yaw))) * m_speed;
-		nextPosition.z -= (float)(sin(glm::radians(m_yaw))) * m_speed;
+		nextPosition.x -= (float)(cos(glm::radians(m_yaw))) * m_speed * deltaTime;
+		nextPosition.z -= (float)(sin(glm::radians(m_yaw))) * m_speed * deltaTime;
 	}
 	if (InputManager::GetInstance()->GetKeyState('d') == KS_KEY_PRESSED)
 	{
-		nextPosition.x += (float)(cos(glm::radians(m_yaw))) * m_speed;
-		nextPosition.z += (float)(sin(glm::radians(m_yaw))) * m_speed;
+		nextPosition.x += (float)(cos(glm::radians(m_yaw))) * m_speed * deltaTime;
+		nextPosition.z += (float)(sin(glm::radians(m_yaw))) * m_speed * deltaTime;
 	}
 
 	bool hasCollided = false;
 	AABB myBox;
 	myBox.SetLocalCoordinates(nextPosition);
-	myBox.SetMin(glm::vec3(-0.5f, -255, -0.5f));
-	myBox.SetMax(glm::vec3(0.5f, 255, 0.5f));
+	myBox.SetMin(glm::vec3(-0.5f, -0.5f, -0.5f));
+	myBox.SetMax(glm::vec3(0.5f, 0.5f, 0.5f));
 	std::vector<AABB>::iterator iter;
 	for (iter = boxes.begin(); iter != boxes.end(); iter++)
 	{

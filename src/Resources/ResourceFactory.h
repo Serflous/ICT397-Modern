@@ -12,7 +12,7 @@
 
 #include "TerrainTextures.h"
 #include "Texture2D.h"
-#include "ModelOBJ.h"
+#include "Modelling/ModelOBJ.h"
 #include "Terrain.h"
 #include "../Shaders/ShaderBase.h"
 #include "../GameObjects/GameObject.h"

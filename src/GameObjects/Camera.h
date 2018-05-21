@@ -65,7 +65,7 @@ public:
 		 * @param[in] boxes A list of bounding boxes.
 		 * @todo Move collision detection to its own class.
 		 */
-	void Move(std::vector<AABB> boxes);
+	void Move(std::vector<AABB> boxes, int deltaTime);
 		/**
 		 * Sets the y coordinate of the camera.
 		 * @param[in] height The height to set the camera to.
@@ -76,8 +76,8 @@ private:
 private:
 	glm::vec3 m_position;
 	float m_pitch, m_yaw, m_roll;
-	float m_speed = 0.3f;
-	float m_rotSpeed = 0.1f;
+	float m_speed = 0.018f;
+	float m_rotSpeed = 0.006f;
 	int m_lastMouseX = 0, m_lastMouseY = 0;
 	const float m_camViewHeight = 2;
 };

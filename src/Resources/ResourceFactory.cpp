@@ -152,6 +152,8 @@ void ResourceFactory::LoadOBJ(const char * filename, ModelOBJ ** model, Texture2
 	*model = new ModelOBJ(vaoId, indicies.size());
 	(*model)->SetTexture(texture);
 	(*model)->SetVertexes(verticies);
+	(*model)->SetUVS(textures);
+	(*model)->SetNorms(normals);
 
 	cout << "OBJ Model loaded: " << filename << " with ID-" << vaoId << " and " << (*model)->GetVertexCount() << " verts" << endl;
 }

@@ -47,6 +47,7 @@ int GlutWindow::InitializeGlutWindow(int * argc, char ** argv, IniLoader loader)
 
 	glutDisplayFunc(StaticDrawCallback);
 	glutIdleFunc(StaticDrawCallback);
+	glutTimerFunc(16, StaticUpdateCallback, 0);
 	glutReshapeFunc(StaticReshapeCallback);
 	glutKeyboardFunc(StaticKeyboardCallback);
 	glutKeyboardUpFunc(StaticKeyboardUpCallback);
@@ -68,18 +69,6 @@ int GlutWindow::InitializeGlutWindow(int * argc, char ** argv, IniLoader loader)
 
 void GlutWindow::DrawCallback()
 {
-	if (InputManager::GetInstance()->GetKeyState('k') == KS_KEY_PRESSED)
-	{
-		m_wireframe = !m_wireframe;
-		if(m_wireframe)
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		else
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	}
-	if (InputManager::GetInstance()->GetKeyState('x') == KS_KEY_PRESSED)
-	{
-		glutExit();
-	}
 	m_scene->RenderScene();
 
 	glutSwapBuffers();
@@ -90,6 +79,27 @@ void GlutWindow::ReshapeCallback(int w, int h)
 	glViewport(0, 0, w, h);
 	m_winX = w;
 	m_winY = h;
+}
+
+void GlutWindow::Update(int value)
+{
+	int currentTime = glutGet(GLUT_ELAPSED_TIME);
+	int deltaTime = currentTime - value;
+	glutTimerFunc(16, StaticUpdateCallback, currentTime);
+
+	if (InputManager::GetInstance()->GetKeyState('k') == KS_KEY_PRESSED)
+	{
+		m_wireframe = !m_wireframe;
+		if (m_wireframe)
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		else
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+	if (InputManager::GetInstance()->GetKeyState('x') == KS_KEY_PRESSED)
+	{
+		glutExit();
+	}
+	m_scene->UpdateScene(deltaTime);
 }
 
 void GlutWindow::BeginMainGameLoop(Scene * scene)
@@ -142,6 +152,11 @@ void GlutWindow::GetWindowSize(int & x, int & y)
 {
 	x = m_winX;
 	y = m_winY;
+}
+
+void GlutWindow::StaticUpdateCallback(int value)
+{
+	m_instance->Update(value);
 }
 
 void GlutWindow::StaticMessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)

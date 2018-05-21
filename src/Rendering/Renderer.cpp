@@ -6,8 +6,10 @@ Renderer::Renderer()
 	ResourceFactory * loader = ResourceFactory::GetInstance();
 	m_staticShader = new StaticShader();
 	m_terrainShader = new TerrainShader();
+	m_animatedShader = new AnimatedShader();
 	loader->LoadShader("res/Shaders/staticShader.vert", "res/Shaders/staticShader.frag", &m_staticShader);
 	loader->LoadShader("res/Shaders/terrainShader.vert", "res/Shaders/terrainShader.frag", &m_terrainShader);
+	loader->LoadShader("res/Shaders/animatedShader.vert", "res/Shaders/animatedShader.frag", &m_animatedShader);
 }
 
 Renderer::Renderer(const Renderer & other)
@@ -29,6 +31,9 @@ void Renderer::Init()
 	m_terrainShader->Start();
 	((TerrainShader*)m_terrainShader)->LoadProjectionMatrix(m_projectionMatrix);
 	m_terrainShader->Stop();
+	m_animatedShader->Start();
+	((AnimatedShader*)m_animatedShader)->LoadProjectionMatrix(m_projectionMatrix);
+	m_animatedShader->Stop();
 }
 
 void Renderer::PrepareRender()
@@ -82,6 +87,9 @@ void Renderer::SetView(Camera * camera)
 	m_terrainShader->Start();
 	((TerrainShader*)m_terrainShader)->LoadViewMatrix(camera);
 	m_terrainShader->Stop();
+	m_animatedShader->Start();
+	((AnimatedShader*)m_animatedShader)->LoadViewMatrix(camera);
+	m_animatedShader->Stop();
 }
 
 void Renderer::RenderTerrain(Terrain * terrain)

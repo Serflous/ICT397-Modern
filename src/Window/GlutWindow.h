@@ -45,6 +45,7 @@ public:
 		 * Internal callback. Will be called when the game screen is resized. This will also happen once at creation.
 		 */
 	void ReshapeCallback(int w, int h);
+	void Update(int value);
 		/**
 		 * Gets the current window size.
 		 * @param[out] x The width of the screen.
@@ -104,6 +105,8 @@ public:
 		 * @param[in] y The mouses y coordinates.
 		 */
 	static void StaticMousePositionCallback(int x, int y);
+	static void StaticUpdateCallback(int value);
+
 		/**
 		 * FreeGlut callback. A static function provided to glut to call when GL has a debug message. Will display this message to the console.
 		 * @param[in] source The source of the error.

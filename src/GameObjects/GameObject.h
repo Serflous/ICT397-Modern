@@ -4,7 +4,7 @@
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 
-#include "../Resources/ModelOBJ.h"
+#include "../Resources/Modelling/ModelOBJ.h"
 #include "../Collision/AABB.h"
 
 #include "../Util/MathHelper.h"
