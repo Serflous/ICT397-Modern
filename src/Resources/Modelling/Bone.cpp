@@ -32,6 +32,11 @@ std::vector<Bone*> Bone::GetChildBones()
 	return m_bones;
 }
 
+const char * Bone::GetName()
+{
+	return m_name;
+}
+
 void Bone::SetAnimatedTransform(glm::mat4x4 transform)
 {
 	m_animatedTransform = transform;

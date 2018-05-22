@@ -14,6 +14,7 @@ public:
 	glm::mat4x4 GetLocalTransformInverse();
 	int GetIndex();
 	std::vector<Bone*> GetChildBones();
+	const char * GetName();
 
 	void SetAnimatedTransform(glm::mat4x4 transform);
 	void CalculateInverse(glm::mat4x4 parentMatrix);
