@@ -12,6 +12,7 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include <assimp/vector3.h>
 
 #include "TerrainTextures.h"
 #include "Texture2D.h"

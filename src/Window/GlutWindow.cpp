@@ -29,7 +29,8 @@ GlutWindow * GlutWindow::GetInstance()
 int GlutWindow::InitializeGlutWindow(int * argc, char ** argv, IniLoader loader)
 {
 	glutInit(argc, argv);
-	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
+	glutSetOption(GLUT_MULTISAMPLE, 16);
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH | GLUT_MULTISAMPLE);
 	m_winX = atoi(loader.GetProperty("engine_window/width"));
 	m_winY = atoi(loader.GetProperty("engine_window/height"));
 	int initPosX = atoi(loader.GetProperty("engine_window/posX"));
@@ -162,6 +163,8 @@ void GlutWindow::StaticUpdateCallback(int value)
 void GlutWindow::StaticMessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 {
 	using namespace std;
+	if (source == GL_DEBUG_SOURCE_API)
+		return;
 	cout << endl;
 	cout << "Source: ";
 	switch (source)

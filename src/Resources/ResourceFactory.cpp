@@ -427,5 +427,79 @@ void ResourceFactory::LoadCollada(const char * filename, ModelAnimated ** model,
 		std::cout << "Error Loading Collada File" << std::endl;
 		return;
 	}
+
+	if (scene->mNumMeshes == 0)
+	{
+		std::cout << "Collada has no meshes" << std::endl;
+		return;
+	}
+
+	std::vector<glm::vec3> vertices;
+	std::vector<glm::vec2> textureCoords;
+	std::vector<glm::vec3> normals;
+	std::vector<float> verticesArray;
+	std::vector<float> textureCoordsArray;
+	std::vector<float> normalsArray;
+	std::vector<int> indices;
+	// Loop and get all verts
+	for (int i = 0; i < scene->mMeshes[0]->mNumVertices; i++)
+	{
+		aiVector3D vec = scene->mMeshes[0]->mVertices[i];
+		glm::vec3 vector;
+		vector.x = vec.x;
+		vector.y = vec.y;
+		vector.z = vec.z;
+		vertices.push_back(vector);
+		verticesArray.push_back(vec.x);
+		verticesArray.push_back(vec.y);
+		verticesArray.push_back(vec.z);
+
+		aiVector3D texVec = scene->mMeshes[0]->mTextureCoords[0][i];
+		glm::vec2 texVector;
+		texVector.x = texVec.x;
+		texVector.y = texVec.y;
+		textureCoords.push_back(texVector);
+		textureCoordsArray.push_back(texVec.x);
+		textureCoordsArray.push_back(texVec.y);
+		textureCoordsArray.push_back(texVec.z);
+
+		aiVector3D normVec = scene->mMeshes[0]->mNormals[i];
+		glm::vec3 normalVector;
+		normalVector.x = normVec.x;
+		normalVector.y = normVec.y;
+		normalVector.z = normVec.z;
+		normals.push_back(normalVector);
+		normalsArray.push_back(normVec.x);
+		normalsArray.push_back(normVec.y);
+		normalsArray.push_back(normVec.z);
+	}
+
+	for (int i = 0; i < scene->mMeshes[0]->mNumFaces; i++)
+	{
+		aiFace face = scene->mMeshes[0]->mFaces[i];
+		for (int j = 0; j < face.mNumIndices; j++)
+		{
+			indices.push_back(face.mIndices[j]);
+		}
+	}
+
+	int vaoId = CreateVAO();
+	BindVAO(vaoId);
+	AddIndiciesToVAO(indices);
+	AddDataToVAO(0, 3, verticesArray);
+	AddDataToVAO(1, 2, textureCoordsArray);
+	AddDataToVAO(2, 3, normalsArray);
+	UnbindVAO();
+
+	*model = new ModelAnimated(vaoId, indices.size(), nullptr, 0);
+
+	(*model)->SetVertexes(vertices);
+	(*model)->SetVertexCount(indices.size());
+	(*model)->SetNorms(normals);
+	(*model)->SetTexture(texture);
+	(*model)->SetUVS(textureCoords);
+
+	std::cout << "Collada has " << vertices.size() << " verts." << std::endl;
+	std::cout << "Collada has " << indices.size() << " indices." << std::endl;
 	std::cout << "Loaded Collada File" << std::endl;
 }

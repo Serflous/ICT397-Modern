@@ -7,7 +7,7 @@ ModelAnimated::ModelAnimated(int vaoId, int vertexCount, Bone * rootBone, int bo
 	m_rootBone = rootBone;
 	m_boneCount = boneCount;
 	glm::mat4x4 identity(1.0);
-	rootBone->CalculateInverse(identity);
+	//rootBone->CalculateInverse(identity);
 }
 
 Bone * ModelAnimated::GetRootBone()
