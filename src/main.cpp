@@ -2,6 +2,7 @@
 #include "Window/GlutWindow.h"
 #include "Rendering/Renderer.h"
 #include "GameObjects/Scenes/Scene.h"
+#include "Resources/Modelling/ModelAnimated.h"
 
 #include "Lua/LuaController.h"
 
@@ -19,6 +20,9 @@ int main(int argc, char ** argv)
 
 	Renderer * renderer = new Renderer();
 	renderer->Init();
+
+	ModelAnimated * model = nullptr;
+	ResourceFactory::GetInstance()->LoadCollada("res/models/man.dae", &model, nullptr);
 
 	scene->SetRenderer(renderer);
 	window->BeginMainGameLoop(scene);

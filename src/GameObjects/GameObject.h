@@ -32,7 +32,7 @@ public:
 		 * Sets the model of the game object.
 		 * @param[in] model The model to use
 		 */
-	void SetModel(ModelOBJ ** model);
+	void SetModel(ModelBase ** model);
 		/**
 		 * Sets the position of the game object
 		 * @param[in] position The position of the game object
@@ -84,7 +84,7 @@ public:
 		 * Gets the model of the object.
 		 * @return ModelOBJ* The model used by the object
 		 */
-	ModelOBJ * GetModel();
+	ModelBase * GetModel();
 
 		/**
 		 * Updates the bounding box with the world position of the object.
@@ -93,7 +93,7 @@ public:
 private:
 
 protected:
-	ModelOBJ * m_model;
+	ModelBase * m_model;
 	glm::vec3 m_position;
 	glm::vec3 m_rotation;
 	glm::vec3 m_scale;

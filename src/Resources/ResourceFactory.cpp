@@ -380,7 +380,7 @@ void ResourceFactory::LoadTerrain(const char * filename, int mapSize, Terrain **
 
 }
 
-void ResourceFactory::LoadGameObject(ModelOBJ * model, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, GameObject ** object)
+void ResourceFactory::LoadGameObject(ModelBase * model, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, GameObject ** object)
 {
 	(*object) = new GameObject();
 	(*object)->SetModel(&model);
@@ -416,4 +416,16 @@ void ResourceFactory::LoadGameObject(ModelOBJ * model, glm::vec3 position, glm::
 	box.SetMax(glm::vec3(maxX, maxY, maxZ));
 
 	(*object)->SetBoundingBox(box);
+}
+
+void ResourceFactory::LoadCollada(const char * filename, ModelAnimated ** model, Texture2D * texture)
+{
+	Assimp::Importer importer;
+	const aiScene * scene = importer.ReadFile(filename, aiProcessPreset_TargetRealtime_Fast);
+	if (!scene)
+	{
+		std::cout << "Error Loading Collada File" << std::endl;
+		return;
+	}
+	std::cout << "Loaded Collada File" << std::endl;
 }

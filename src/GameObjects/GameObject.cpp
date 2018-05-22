@@ -15,7 +15,7 @@ GameObject::~GameObject()
 
 }
 
-void GameObject::SetModel(ModelOBJ ** model)
+void GameObject::SetModel(ModelBase ** model)
 {
 	m_model = (*model);
 }
@@ -25,7 +25,7 @@ glm::mat4x4 GameObject::GetTransformationMatrix()
 	return MathHelper::CreateTransformationMatrix(m_position, m_rotation, m_scale);
 }
 
-ModelOBJ * GameObject::GetModel()
+ModelBase * GameObject::GetModel()
 {
 	return m_model;
 }

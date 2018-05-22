@@ -48,7 +48,7 @@ void Renderer::PrepareRender()
 void Renderer::RenderGameObject(GameObject * obj)
 {
 	m_staticShader->Start();
-	ModelOBJ * model = obj->GetModel();
+	ModelBase * model = obj->GetModel();
 	glBindVertexArray(model->GetVAOID());
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);

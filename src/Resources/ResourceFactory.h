@@ -9,10 +9,14 @@
 #include <glm/vec3.hpp>
 #include <glm/vec2.hpp>
 #include <GL/glew.h>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 #include "TerrainTextures.h"
 #include "Texture2D.h"
 #include "Modelling/ModelOBJ.h"
+#include "Modelling/ModelAnimated.h"
 #include "Terrain.h"
 #include "../Shaders/ShaderBase.h"
 #include "../GameObjects/GameObject.h"
@@ -53,6 +57,7 @@ public:
 		 * @param[in] fragFilename The filename of the fragment shader.
 		 * @param[out] shader The ShaderBase object to load the shader into.
 		 */
+	void LoadCollada(const char * filename, ModelAnimated ** model, Texture2D * texture);
 	void LoadShader(const char * vertFilename, const char * fragFilename, ShaderBase ** shader);
 		/**
 		 * Loads a given terrain file.
@@ -71,7 +76,7 @@ public:
 		 * @param[in] scale The scale of the game object.
 		 * @param[out] object The GmaeObject to load the object into.
 		 */
-	void LoadGameObject(ModelOBJ * model, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, GameObject ** object);
+	void LoadGameObject(ModelBase * model, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, GameObject ** object);
 
 private:
 		/**
@@ -143,7 +148,7 @@ private:
 private:
 	static ResourceFactory * m_instance;
 	std::vector<Texture2D*> m_textures;
-	std::vector<ModelOBJ*> m_models;
+	std::vector<ModelBase*> m_models;
 	std::vector<int> m_vaoIds;
 	std::vector<int> m_vboIds;
 };
