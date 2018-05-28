@@ -24,6 +24,7 @@ public:
 		 * @param[in] scale The scale of the object
 		 */
 	static glm::mat4x4 CreateTransformationMatrix(glm::vec3 translation, glm::vec3 rotation, glm::vec3 scale);
+	static glm::mat4x4 CreateTransformationMatrix(glm::vec2 translation, glm::vec2 rotation, glm::vec2 scale);
 		/**
 		 * Creates a view matrix by compiling the values from a camera.
 		 * @param[in] cam The camera to create the view matrix from.

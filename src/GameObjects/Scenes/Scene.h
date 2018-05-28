@@ -9,6 +9,7 @@
 #include "../../Resources/Modelling/ModelOBJ.h"
 #include "../../Resources/Terrain.h"
 #include "../../Resources/Skybox.h"
+#include "../../Resources/GUI/GUI.h"
 
 class Camera;
 class Terrain;
@@ -55,6 +56,7 @@ public:
 	void SetTerrain(Terrain * terrain);
 
 	void SetSkybox(Skybox * skybox);
+	void SetGUI(GUI * gui);
 
 		/**
 		 * Renders the current scene.
@@ -69,6 +71,7 @@ private:
 	Renderer * m_renderer;
 	Terrain * m_terrain;
 	Skybox * m_skybox;
+	GUI * m_gui;
 };
 
 #endif

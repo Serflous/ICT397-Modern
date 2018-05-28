@@ -116,6 +116,8 @@ private:
 		 * @param[in] roll The roll of the camera.
 		 */
 	static void SetCamera(float posX, float posY, float posZ, float pitch, float yaw, float roll);
+
+	static void SetSkybox(const char * right, const char * left, const char * top, const char * bottom, const char * back, const char * front);
 private:
 	static LuaController * m_instance;
 
@@ -125,7 +127,7 @@ private:
 	std::vector<GameObject*> m_loadedGameObjects;
 	Terrain * m_loadedTerrain;
 	Camera * m_loadedCamera;
-
+	Skybox * m_loadedSkybox;
 };
 
 #endif

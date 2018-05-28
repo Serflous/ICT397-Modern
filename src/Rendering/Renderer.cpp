@@ -8,10 +8,12 @@ Renderer::Renderer()
 	m_terrainShader = new TerrainShader();
 	m_animatedShader = new AnimatedShader();
 	m_skyboxShader = new SkyboxShader();
+	m_guiShader = new GUIShader();
 	loader->LoadShader("res/Shaders/staticShader.vert", "res/Shaders/staticShader.frag", &m_staticShader);
 	loader->LoadShader("res/Shaders/terrainShader.vert", "res/Shaders/terrainShader.frag", &m_terrainShader);
 	loader->LoadShader("res/Shaders/animatedShader.vert", "res/Shaders/animatedShader.frag", &m_animatedShader);
 	loader->LoadShader("res/shaders/skyboxShader.vert", "res/shaders/skyboxShader.frag", &m_skyboxShader);
+	loader->LoadShader("res/shaders/guiShader.vert", "res/shaders/guiShader.frag", &m_guiShader);
 }
 
 Renderer::Renderer(const Renderer & other)
@@ -148,4 +150,31 @@ void Renderer::RenderSkybox(Skybox * skybox)
 	glDisableVertexAttribArray(0);
 	glBindVertexArray(0);
 	m_skyboxShader->Stop();
+}
+
+void Renderer::RenderGUI(GUI * gui)
+{
+	m_guiShader->Start();
+
+	glBindVertexArray(gui->GetVAOID());
+	glEnableVertexAttribArray(0);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	std::vector<TextureGUI*> textures = gui->GetTextures();
+	std::vector<TextureGUI*>::iterator texIter;
+	for (texIter = textures.begin(); texIter != textures.end(); texIter++)
+	{
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, (*texIter)->GetTexture()->GetTextureId());
+
+		((GUIShader*)m_guiShader)->LoadTransformationMatrix(MathHelper::CreateTransformationMatrix((*texIter)->GetPosition(), (*texIter)->GetRotation(), (*texIter)->GetScale()));
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, gui->GetVertexCount());
+	}
+
+	glDisable(GL_BLEND);
+	glDisableVertexAttribArray(0);
+	glBindVertexArray(0);
+
+	m_guiShader->Stop();
 }

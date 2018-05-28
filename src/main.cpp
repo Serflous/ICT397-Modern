@@ -4,6 +4,7 @@
 #include "GameObjects/Scenes/Scene.h"
 #include "Resources/Modelling/ModelAnimated.h"
 #include "Resources/Skybox.h"
+#include "Resources/GUI/GUI.h"
 
 #include "Lua/LuaController.h"
 
@@ -30,17 +31,14 @@ int main(int argc, char ** argv)
 	ResourceFactory::GetInstance()->LoadGameObject(model, glm::vec3(513, 71, 471), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1), &obj);
 	scene->AddGameObject(obj);
 
-	Skybox * skybox = nullptr;
-	std::vector<const char *> skyboxTextures;
-	skyboxTextures.push_back("res/textures/skybox/right.raw");
-	skyboxTextures.push_back("res/textures/skybox/left.raw");
-	skyboxTextures.push_back("res/textures/skybox/top.raw");
-	skyboxTextures.push_back("res/textures/skybox/bottom.raw");
-	skyboxTextures.push_back("res/textures/skybox/back.raw");
-	skyboxTextures.push_back("res/textures/skybox/front.raw");
-	ResourceFactory::GetInstance()->LoadSkybox(&skybox, skyboxTextures, 512);
-	scene->SetSkybox(skybox);
+	GUI * gui = nullptr;
+	ResourceFactory::GetInstance()->LoadGUIQuad(&gui);
+	Texture2D * heartTex = nullptr;
+	ResourceFactory::GetInstance()->LoadTexture("res/textures/heart.raw", 32, 32, &heartTex);
+	TextureGUI * heartTexGUI = new TextureGUI(heartTex, glm::vec2(-0.85, -0.85), glm::vec2(0, 0), glm::vec2(0.05, 0.05));
+	gui->AddTexture(heartTexGUI);
 
+	scene->SetGUI(gui);
 	scene->SetRenderer(renderer);
 	window->BeginMainGameLoop(scene);
 }

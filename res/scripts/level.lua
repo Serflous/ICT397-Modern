@@ -35,3 +35,4 @@ npcFifteen = LoadMonster(npcModelObject, 744, 94, 463, 0, 0, 0, 1, 1, 1)
 
 SetTerrain("res/Heightmaps/heightmapLarge.raw", 1024, baseTerrainTexture, dirtTextureTerrain, rockTextureTerrain, rockIceTextureTerrain, detailMapTerrain, 1, 0.6, 1)
 SetCamera(512, 0, 512, 0, 0, 0)
+SetSkybox("res/textures/skybox/right.raw", "res/textures/skybox/left.raw", "res/textures/skybox/top.raw", "res/textures/skybox/bottom.raw", "res/textures/skybox/back.raw", "res/textures/skybox/front.raw")

@@ -37,6 +37,7 @@ void LuaController::ProcessLuaFile(const char * filename)
 	luabind::module(lua)[luabind::def("LoadMonster", &LoadMonster)];
 	luabind::module(lua)[luabind::def("SetTerrain", &SetTerrain)];
 	luabind::module(lua)[luabind::def("SetCamera", &SetCamera)];
+	luabind::module(lua)[luabind::def("SetSkybox", &SetSkybox)];
 	//luabind::module(lua)[luabind::def("LoadMonster", &LoadMonster)];
 
 	luaL_dofile(lua, filename);
@@ -105,6 +106,7 @@ Scene * LuaController::CreateScene()
 	m_currentScene = new Scene();
 	m_currentScene->SetCamera(m_loadedCamera);
 	m_currentScene->SetTerrain(m_loadedTerrain);
+	m_currentScene->SetSkybox(m_loadedSkybox);
 	std::vector<GameObject*>::iterator iter;
 	for (iter = m_loadedGameObjects.begin(); iter != m_loadedGameObjects.end(); iter++)
 	{
@@ -113,4 +115,17 @@ Scene * LuaController::CreateScene()
 	}
 
 	return m_currentScene;
+}
+
+void LuaController::SetSkybox(const char * right, const char * left, const char * top, const char * bottom, const char * back, const char * front)
+{
+	m_instance->m_loadedSkybox = nullptr;
+	std::vector<const char *> skyboxTextures;
+	skyboxTextures.push_back(right);
+	skyboxTextures.push_back(left);
+	skyboxTextures.push_back(top);
+	skyboxTextures.push_back(bottom);
+	skyboxTextures.push_back(back);
+	skyboxTextures.push_back(front);
+	ResourceFactory::GetInstance()->LoadSkybox(&m_instance->m_loadedSkybox, skyboxTextures, 512);
 }

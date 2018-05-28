@@ -11,6 +11,14 @@ glm::mat4x4 MathHelper::CreateTransformationMatrix(glm::vec3 translation, glm::v
 	return transformationMatrix;
 }
 
+glm::mat4x4 MathHelper::CreateTransformationMatrix(glm::vec2 translation, glm::vec2 rotation, glm::vec2 scale)
+{
+	glm::vec3 translation3(translation, 0.0);
+	glm::vec3 rotation3(rotation, 0.0);
+	glm::vec3 scale3(scale, 0.0);
+	return CreateTransformationMatrix(translation3, rotation3, scale3);
+}
+
 glm::mat4x4 MathHelper::CreateViewMatrix(Camera * cam)
 {
 	glm::mat4x4 viewMatrix(1.0f);

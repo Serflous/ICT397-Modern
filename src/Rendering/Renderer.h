@@ -12,11 +12,13 @@
 #include "../Shaders/TerrainShader.h"
 #include "../Shaders/AnimatedShader.h"
 #include "../Shaders/SkyboxShader.h"
+#include "../Shaders/GUIShader.h"
 #include "../GameObjects/GameObject.h"
 #include "../Resources/Modelling/ModelOBJ.h"
 #include "../Resources/Terrain.h"
 #include "../Resources/Skybox.h"
 #include "../Util/MathHelper.h"
+#include "../Resources/GUI/GUI.h"
 
 class Terrain;
 class GameObject;
@@ -65,6 +67,8 @@ public:
 		 */
 	void RenderSkybox(Skybox * skybox);
 	void SetView(Camera * camera);
+
+	void RenderGUI(GUI * gui);
 private:
 		/**
 		 * Creates a projection matrix using GLM
@@ -75,6 +79,7 @@ private:
 	ShaderBase * m_terrainShader;
 	ShaderBase * m_animatedShader;
 	ShaderBase * m_skyboxShader;
+	ShaderBase * m_guiShader;
 	glm::mat4x4 m_projectionMatrix;
 	const float FOV = 70.0f;
 	const float NEAR_PLANE = 0.1f;

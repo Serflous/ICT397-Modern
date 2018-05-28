@@ -21,6 +21,7 @@
 #include "Terrain.h"
 #include "../Shaders/ShaderBase.h"
 #include "../GameObjects/GameObject.h"
+#include "../Resources/GUI/GUI.h"
 #include "Skybox.h"
 
 class Terrain;
@@ -80,6 +81,7 @@ public:
 		 */
 	void LoadGameObject(ModelBase * model, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, GameObject ** object);
 	void LoadSkybox(Skybox ** skybox, std::vector<const char *> textures, int size);
+	void LoadGUIQuad(GUI ** gui);
 
 private:
 		/**

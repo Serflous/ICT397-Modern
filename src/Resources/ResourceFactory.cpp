@@ -591,6 +591,7 @@ void ResourceFactory::LoadSkybox(Skybox ** skybox, std::vector<const char *> tex
 	(*skybox)->SetIDs(vaoId, texId);
 	(*skybox)->SetVertexCount(verts.size() / 3);
 }
+
 unsigned char * ResourceFactory::LoadSkyboxTextureData(const char * filename, int size)
 {
 	unsigned char * data;
@@ -609,4 +610,20 @@ unsigned char * ResourceFactory::LoadSkyboxTextureData(const char * filename, in
 	fclose(fp);
 
 	return data;
+}
+
+void ResourceFactory::LoadGUIQuad(GUI ** gui)
+{
+	*gui = new GUI();
+	float positionsArray[] = {-1, 1, -1, -1, 1, 1, 1, -1};
+	std::vector<float> positions;
+	for (int i = 0; i < 8; i++)
+		positions.push_back(positionsArray[i]);
+	int vaoId = CreateVAO();
+	BindVAO(vaoId);
+	AddDataToVAO(0, 2, positions);
+	UnbindVAO();
+	
+	(*gui)->SetVAOID(vaoId);
+	(*gui)->SetVertexCount(positions.size() / 2);
 }
