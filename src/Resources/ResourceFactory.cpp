@@ -421,7 +421,7 @@ void ResourceFactory::LoadGameObject(ModelBase * model, glm::vec3 position, glm:
 void ResourceFactory::LoadCollada(const char * filename, ModelAnimated ** model, Texture2D * texture)
 {
 	Assimp::Importer importer;
-	const aiScene * scene = importer.ReadFile(filename, aiProcessPreset_TargetRealtime_Fast);
+	const aiScene * scene = importer.ReadFile(filename, aiProcessPreset_TargetRealtime_Fast | aiProcess_FlipUVs);
 	if (!scene)
 	{
 		std::cout << "Error Loading Collada File" << std::endl;
@@ -473,13 +473,22 @@ void ResourceFactory::LoadCollada(const char * filename, ModelAnimated ** model,
 		normalsArray.push_back(normVec.y);
 		normalsArray.push_back(normVec.z);
 	}
-
+	
 	for (int i = 0; i < scene->mMeshes[0]->mNumFaces; i++)
 	{
 		aiFace face = scene->mMeshes[0]->mFaces[i];
 		for (int j = 0; j < face.mNumIndices; j++)
 		{
 			indices.push_back(face.mIndices[j]);
+		}
+	}
+
+	if (scene->mMeshes[0]->HasBones())
+	{
+		for (int i = 0; i < scene->mMeshes[0]->mNumBones; i++)
+		{
+			aiBone * bone = scene->mMeshes[0]->mBones[i];
+			
 		}
 	}
 
@@ -502,4 +511,102 @@ void ResourceFactory::LoadCollada(const char * filename, ModelAnimated ** model,
 	std::cout << "Collada has " << vertices.size() << " verts." << std::endl;
 	std::cout << "Collada has " << indices.size() << " indices." << std::endl;
 	std::cout << "Loaded Collada File" << std::endl;
+}
+
+void ResourceFactory::LoadSkybox(Skybox ** skybox, std::vector<const char *> textures, int size)
+{
+	float vertsArray[] =
+	{
+		-size, size, -size,
+		-size, -size, -size,
+		size, -size, -size,
+		size, -size, -size,
+		size, size, -size,
+		-size, size, -size,
+
+		-size, -size, size,
+		-size, -size, -size,
+		-size, size, -size,
+		-size, size, -size,
+		-size, size, size,
+		-size, -size, size,
+
+		size, -size, -size,
+		size, -size, size,
+		size, size, size,
+		size, size, size,
+		size, size, -size,
+		size, -size, -size,
+
+		-size, -size, size,
+		-size, size, size,
+		size, size, size,
+		size, size, size,
+		size, -size, size,
+		-size, -size, size,
+
+		-size, size, -size,
+		size, size, -size,
+		size, size, size,
+		size, size, size,
+		-size, size, size,
+		-size, size, -size,
+
+		-size, -size, -size,
+		-size, -size, size,
+		size, -size, -size,
+		size, -size, -size,
+		-size, -size, size,
+		size, -size, size
+	};
+	std::vector<float> verts;
+	for (int i = 0; i < 108; i++)
+		verts.push_back(vertsArray[i]);
+
+	*skybox = new Skybox();
+	GLuint texId = 0;
+	glGenTextures(1, &texId);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, texId);
+
+	std::vector<const char *>::iterator texIter;
+	int i = 0;
+	for (texIter = textures.begin(), i = 0; texIter != textures.end(); texIter++, i++)
+	{
+		unsigned char * data = LoadSkyboxTextureData(*texIter, size);
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA, size, size, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	}
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	int vaoId = CreateVAO();
+	BindVAO(vaoId);
+	AddDataToVAO(0, 3, verts);
+	UnbindVAO();
+
+	(*skybox)->SetDimensions(size, size);
+	(*skybox)->SetIDs(vaoId, texId);
+	(*skybox)->SetVertexCount(verts.size() / 3);
+}
+unsigned char * ResourceFactory::LoadSkyboxTextureData(const char * filename, int size)
+{
+	unsigned char * data;
+	FILE * fp;
+
+	fp = fopen(filename, "rb");
+	if (fp == NULL)
+	{
+		std::cerr << "Texture not found: " << filename << std::endl;
+		return nullptr;
+	}
+
+	data = (unsigned char *)malloc(size * size * 4);
+
+	fread(data, size * size * 4, 1, fp);
+	fclose(fp);
+
+	return data;
 }

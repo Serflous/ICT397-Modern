@@ -40,6 +40,7 @@ void Scene::RenderScene()
 	{
 		m_renderer->RenderGameObject(*objIter);
 	}
+	m_renderer->RenderSkybox(m_skybox);
 }
 
 void Scene::UpdateScene(int deltaTime)
@@ -62,4 +63,9 @@ void Scene::UpdateScene(int deltaTime)
 void Scene::SetTerrain(Terrain * terrain)
 {
 	m_terrain = terrain;
+}
+
+void Scene::SetSkybox(Skybox * skybox)
+{
+	m_skybox = skybox;
 }

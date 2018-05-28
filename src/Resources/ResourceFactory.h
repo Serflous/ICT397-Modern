@@ -21,6 +21,7 @@
 #include "Terrain.h"
 #include "../Shaders/ShaderBase.h"
 #include "../GameObjects/GameObject.h"
+#include "Skybox.h"
 
 class Terrain;
 class GameObject;
@@ -78,6 +79,7 @@ public:
 		 * @param[out] object The GmaeObject to load the object into.
 		 */
 	void LoadGameObject(ModelBase * model, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, GameObject ** object);
+	void LoadSkybox(Skybox ** skybox, std::vector<const char *> textures, int size);
 
 private:
 		/**
@@ -145,6 +147,8 @@ private:
 		 * @param[in] type The type of the shader. Vertex or Fragment.
 		 */
 	int LoadShaderFile(const char * filename, int type);
+
+	unsigned char * LoadSkyboxTextureData(const char * filename, int size);
 
 private:
 	static ResourceFactory * m_instance;

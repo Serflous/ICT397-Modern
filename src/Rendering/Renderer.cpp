@@ -7,9 +7,11 @@ Renderer::Renderer()
 	m_staticShader = new StaticShader();
 	m_terrainShader = new TerrainShader();
 	m_animatedShader = new AnimatedShader();
+	m_skyboxShader = new SkyboxShader();
 	loader->LoadShader("res/Shaders/staticShader.vert", "res/Shaders/staticShader.frag", &m_staticShader);
 	loader->LoadShader("res/Shaders/terrainShader.vert", "res/Shaders/terrainShader.frag", &m_terrainShader);
 	loader->LoadShader("res/Shaders/animatedShader.vert", "res/Shaders/animatedShader.frag", &m_animatedShader);
+	loader->LoadShader("res/shaders/skyboxShader.vert", "res/shaders/skyboxShader.frag", &m_skyboxShader);
 }
 
 Renderer::Renderer(const Renderer & other)
@@ -34,6 +36,9 @@ void Renderer::Init()
 	m_animatedShader->Start();
 	((AnimatedShader*)m_animatedShader)->LoadProjectionMatrix(m_projectionMatrix);
 	m_animatedShader->Stop();
+	m_skyboxShader->Start();
+	((SkyboxShader*)m_skyboxShader)->LoadProjectionMatrix(m_projectionMatrix);
+	m_skyboxShader->Stop();
 }
 
 void Renderer::PrepareRender()
@@ -90,6 +95,9 @@ void Renderer::SetView(Camera * camera)
 	m_animatedShader->Start();
 	((AnimatedShader*)m_animatedShader)->LoadViewMatrix(camera);
 	m_animatedShader->Stop();
+	m_skyboxShader->Start();
+	((SkyboxShader*)m_skyboxShader)->LoadViewMatrix(camera);
+	m_skyboxShader->Stop();
 }
 
 void Renderer::RenderTerrain(Terrain * terrain)
@@ -127,4 +135,17 @@ void Renderer::RenderTerrain(Terrain * terrain)
 	glDisableVertexAttribArray(3);
 	glBindVertexArray(0);
 	m_terrainShader->Stop();
+}
+
+void Renderer::RenderSkybox(Skybox * skybox)
+{
+	m_skyboxShader->Start();
+	glBindVertexArray(skybox->GetVAOID());
+	glEnableVertexAttribArray(0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, skybox->GetTextureID());
+	glDrawArrays(GL_TRIANGLES, 0, skybox->GetVertexCount());
+	glDisableVertexAttribArray(0);
+	glBindVertexArray(0);
+	m_skyboxShader->Stop();
 }

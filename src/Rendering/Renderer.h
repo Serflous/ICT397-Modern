@@ -11,9 +11,11 @@
 #include "../Shaders/StaticShader.h"
 #include "../Shaders/TerrainShader.h"
 #include "../Shaders/AnimatedShader.h"
+#include "../Shaders/SkyboxShader.h"
 #include "../GameObjects/GameObject.h"
 #include "../Resources/Modelling/ModelOBJ.h"
 #include "../Resources/Terrain.h"
+#include "../Resources/Skybox.h"
 #include "../Util/MathHelper.h"
 
 class Terrain;
@@ -61,6 +63,7 @@ public:
 		 * Sets the view to the view of the camera.
 		 * @param[in] camera The camera.
 		 */
+	void RenderSkybox(Skybox * skybox);
 	void SetView(Camera * camera);
 private:
 		/**
@@ -71,6 +74,7 @@ private:
 	ShaderBase * m_staticShader;
 	ShaderBase * m_terrainShader;
 	ShaderBase * m_animatedShader;
+	ShaderBase * m_skyboxShader;
 	glm::mat4x4 m_projectionMatrix;
 	const float FOV = 70.0f;
 	const float NEAR_PLANE = 0.1f;

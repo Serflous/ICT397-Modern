@@ -8,6 +8,7 @@
 #include "../GameObject.h"
 #include "../../Resources/Modelling/ModelOBJ.h"
 #include "../../Resources/Terrain.h"
+#include "../../Resources/Skybox.h"
 
 class Camera;
 class Terrain;
@@ -53,6 +54,8 @@ public:
 		 */
 	void SetTerrain(Terrain * terrain);
 
+	void SetSkybox(Skybox * skybox);
+
 		/**
 		 * Renders the current scene.
 		 */
@@ -65,6 +68,7 @@ private:
 	std::vector<GameObject*> m_gameObjects;
 	Renderer * m_renderer;
 	Terrain * m_terrain;
+	Skybox * m_skybox;
 };
 
 #endif
