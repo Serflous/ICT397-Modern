@@ -36,7 +36,11 @@ int main(int argc, char ** argv)
 	Texture2D * heartTex = nullptr;
 	ResourceFactory::GetInstance()->LoadTexture("res/textures/heart.raw", 32, 32, &heartTex);
 	TextureGUI * heartTexGUI = new TextureGUI(heartTex, glm::vec2(-0.85, -0.85), glm::vec2(0, 0), glm::vec2(0.05, 0.05));
+	Texture2D * crosshairTex = nullptr;
+	ResourceFactory::GetInstance()->LoadTexture("res/textures/crosshair.raw", 32, 32, &crosshairTex);
+	TextureGUI * crosshairTexGUI = new TextureGUI(crosshairTex, glm::vec2(0, 0), glm::vec2(0, 0), glm::vec2(0.03, 0.03));
 	gui->AddTexture(heartTexGUI);
+	gui->AddTexture(crosshairTexGUI);
 
 	scene->SetGUI(gui);
 	scene->SetRenderer(renderer);

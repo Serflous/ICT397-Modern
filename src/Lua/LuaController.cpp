@@ -38,7 +38,6 @@ void LuaController::ProcessLuaFile(const char * filename)
 	luabind::module(lua)[luabind::def("SetTerrain", &SetTerrain)];
 	luabind::module(lua)[luabind::def("SetCamera", &SetCamera)];
 	luabind::module(lua)[luabind::def("SetSkybox", &SetSkybox)];
-	//luabind::module(lua)[luabind::def("LoadMonster", &LoadMonster)];
 
 	luaL_dofile(lua, filename);
 }
@@ -61,24 +60,27 @@ int LuaController::LoadModelOBJ(const char * modelFilename, int textureId)
 	return m_instance->m_loadedModelOBJs.size() - 1;
 }
 
-int LuaController::LoadGameObject(int modelId, float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float scaleX, float scaleY, float scaleZ)
+int LuaController::LoadGameObject(int modelId, float posX, float posZ, float rotX, float rotY, float rotZ, float scaleX, float scaleY, float scaleZ)
 {
 	ResourceFactory * factory = ResourceFactory::GetInstance();
 	ModelOBJ * model = m_instance->m_loadedModelOBJs[modelId];
 	GameObject * gameObject = nullptr;
-	factory->LoadGameObject(model, glm::vec3(posX, posY, posZ), glm::vec3(rotX, rotY, rotZ), glm::vec3(scaleX, scaleY, scaleZ), &gameObject);
+	factory->LoadGameObject(model, glm::vec3(posX, 0, posZ), glm::vec3(rotX, rotY, rotZ), glm::vec3(scaleX, scaleY, scaleZ), &gameObject);
 	m_instance->m_loadedGameObjects.push_back(gameObject);
 	return m_instance->m_loadedGameObjects.size() - 1;
 }
 
-int LuaController::LoadMonster(int modelId, float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float scaleX, float scaleY, float scaleZ)
+int LuaController::LoadMonster(int modelId, float posX, float posZ, float rotX, float rotY, float rotZ, float scaleX, float scaleY, float scaleZ)
 {
 	ResourceFactory * factory = ResourceFactory::GetInstance();
 	ModelOBJ * model = m_instance->m_loadedModelOBJs[modelId];
 	GameObject * gameObject = new MonsterObject();
-	factory->LoadGameObject(model, glm::vec3(posX, posY, posZ), glm::vec3(rotX, rotY, rotZ), glm::vec3(scaleX, scaleY, scaleZ), &gameObject);
-	m_instance->m_loadedGameObjects.push_back(gameObject);
-	return m_instance->m_loadedGameObjects.size() - 1;
+	factory->LoadGameObject(model, glm::vec3(posX, 0, posZ), glm::vec3(rotX, rotY, rotZ), glm::vec3(scaleX, scaleY, scaleZ), &gameObject);
+	Agent * agent = new Agent();
+	agent->SetGameObject(gameObject);
+	//m_instance->m_loadedGameObjects.push_back(gameObject);
+	m_instance->m_loadedAgents.push_back(agent);
+	return m_instance->m_loadedAgents.size() - 1;
 }
 
 void LuaController::SetTerrain(const char * heightmap, int heightmapSize, int baseTexId, int rTexId, int gTexId, int bTexId, int detailMapId, float scaleX, float scaleY, float scaleZ)
@@ -104,6 +106,8 @@ void LuaController::SetCamera(float posX, float posY, float posZ, float pitch, f
 Scene * LuaController::CreateScene()
 {
 	m_currentScene = new Scene();
+	Player * player = new Player();
+	m_currentScene->SetPlayer(player);
 	m_currentScene->SetCamera(m_loadedCamera);
 	m_currentScene->SetTerrain(m_loadedTerrain);
 	m_currentScene->SetSkybox(m_loadedSkybox);
@@ -112,6 +116,13 @@ Scene * LuaController::CreateScene()
 	{
 		GameObject * object = (*iter);
 		m_currentScene->AddGameObject(object);
+	}
+	std::vector<Agent*>::iterator agentIter;
+	for (agentIter = m_loadedAgents.begin(); agentIter != m_loadedAgents.end(); agentIter++)
+	{
+		Agent * agent = (*agentIter);
+		agent->SetPlayer(player);
+		m_currentScene->AddAgent(agent);
 	}
 
 	return m_currentScene;

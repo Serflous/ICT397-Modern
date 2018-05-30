@@ -57,6 +57,7 @@ public:
 	* @return Texture2D The texture used.
 	*/
 	Texture2D * GetTexture();
+	float GetModelHeight();
 protected:
 	int m_vaoId;
 	int m_vertexCount;

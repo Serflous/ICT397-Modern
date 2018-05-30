@@ -67,22 +67,22 @@ void Camera::Move(std::vector<AABB> boxes, int deltaTime)
 
 	glm::vec3 nextPosition = m_position;
 
-	if (InputManager::GetInstance()->GetKeyState('w') == KS_KEY_PRESSED)
+	if (InputManager::GetInstance()->GetKeyState('w') == KS_KEY_PRESSED || InputManager::GetInstance()->GetKeyState('w') == KS_KEY_REPEAT)
 	{
 		nextPosition.x += (float)(sin(glm::radians(m_yaw))) * m_speed * deltaTime;
 		nextPosition.z -= (float)(cos(glm::radians(m_yaw))) * m_speed * deltaTime;
 	}
-	if (InputManager::GetInstance()->GetKeyState('s') == KS_KEY_PRESSED)
+	if (InputManager::GetInstance()->GetKeyState('s') == KS_KEY_PRESSED || InputManager::GetInstance()->GetKeyState('s') == KS_KEY_REPEAT)
 	{
 		nextPosition.x -= (float)(sin(glm::radians(m_yaw))) * m_speed * deltaTime;
 		nextPosition.z += (float)(cos(glm::radians(m_yaw))) * m_speed * deltaTime;
 	}
-	if (InputManager::GetInstance()->GetKeyState('a') == KS_KEY_PRESSED)
+	if (InputManager::GetInstance()->GetKeyState('a') == KS_KEY_PRESSED || InputManager::GetInstance()->GetKeyState('a') == KS_KEY_REPEAT)
 	{
 		nextPosition.x -= (float)(cos(glm::radians(m_yaw))) * m_speed * deltaTime;
 		nextPosition.z -= (float)(sin(glm::radians(m_yaw))) * m_speed * deltaTime;
 	}
-	if (InputManager::GetInstance()->GetKeyState('d') == KS_KEY_PRESSED)
+	if (InputManager::GetInstance()->GetKeyState('d') == KS_KEY_PRESSED || InputManager::GetInstance()->GetKeyState('d') == KS_KEY_REPEAT)
 	{
 		nextPosition.x += (float)(cos(glm::radians(m_yaw))) * m_speed * deltaTime;
 		nextPosition.z += (float)(sin(glm::radians(m_yaw))) * m_speed * deltaTime;

@@ -2,7 +2,7 @@
 
 Scene::Scene()
 {
-
+	
 }
 
 Scene::Scene(const Scene & other)
@@ -40,6 +40,11 @@ void Scene::RenderScene()
 	{
 		m_renderer->RenderGameObject(*objIter);
 	}
+	std::vector<Agent*>::iterator agentIter;
+	for (agentIter = m_agents.begin(); agentIter != m_agents.end(); agentIter++)
+	{
+		m_renderer->RenderGameObject((*agentIter)->GetGameObject());
+	}
 	m_renderer->RenderSkybox(m_skybox);
 	m_renderer->RenderGUI(m_gui);
 }
@@ -50,15 +55,34 @@ void Scene::UpdateScene(int deltaTime)
 	std::vector<AABB> boxes;
 	for (objIter = m_gameObjects.begin(); objIter != m_gameObjects.end(); objIter++)
 	{
+		(*objIter)->SetHeight((m_terrain->GetRelativeHeight(((*objIter)->GetPosition().x / m_terrain->GetScale().x), ((*objIter)->GetPosition().z) / m_terrain->GetScale().z) * m_terrain->GetScale().y) + ((*objIter)->GetModelHeight() / 2));
+		(*objIter)->Update(deltaTime);
 		(*objIter)->UpdateBoundingBoxWithPosition();
 		boxes.push_back((*objIter)->GetBoundingBox());
 	}
+	std::vector<Agent*>::iterator agentIter;
+	for (agentIter = m_agents.begin(); agentIter != m_agents.end(); agentIter++)
+	{
+		GameObject * object = (*agentIter)->GetGameObject();
+		object->SetHeight((m_terrain->GetRelativeHeight((object->GetPosition().x / m_terrain->GetScale().x), (object->GetPosition().z) / m_terrain->GetScale().z) * m_terrain->GetScale().y) + (object->GetModelHeight() / 2));
+		object->Update(deltaTime);
+		object->UpdateBoundingBoxWithPosition();
+		boxes.push_back(object->GetBoundingBox());
+	}
 	m_camera->Move(boxes, deltaTime);
+	m_player->SetPosition(m_camera->GetPosition());
 	float xPos = m_camera->GetPosition().x / m_terrain->GetScale().x;
 	float zPos = m_camera->GetPosition().z / m_terrain->GetScale().z;
 	float relHeight = m_terrain->GetRelativeHeight(xPos, zPos);
 	relHeight = relHeight * ((float)m_terrain->GetScale().y) + (float)m_camera->GetCamViewHeight();
 	m_camera->SetHeight(relHeight);
+	for (agentIter = m_agents.begin(); agentIter != m_agents.end(); agentIter++)
+	{
+		(*agentIter)->Update(deltaTime);
+	}
+	RayPicker picker(m_renderer->GetProjectionMatrix());
+	picker.Update(m_camera);
+	m_player->Update(deltaTime, boxes, picker);
 }
 
 void Scene::SetTerrain(Terrain * terrain)
@@ -74,4 +98,14 @@ void Scene::SetSkybox(Skybox * skybox)
 void Scene::SetGUI(GUI * gui)
 {
 	m_gui = gui;
+}
+
+void Scene::SetPlayer(Player * player)
+{
+	m_player = player;
+}
+
+void Scene::AddAgent(Agent * agent)
+{
+	m_agents.push_back(agent);
 }

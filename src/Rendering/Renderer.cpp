@@ -86,6 +86,11 @@ void Renderer::CreateProjectionMatrix()
 	m_projectionMatrix = glm::perspective(FOV, aspectRatio, NEAR_PLANE, FAR_PLANE);
 }
 
+glm::mat4x4 Renderer::GetProjectionMatrix()
+{
+	return m_projectionMatrix;
+}
+
 void Renderer::SetView(Camera * camera)
 {
 	m_staticShader->Start();

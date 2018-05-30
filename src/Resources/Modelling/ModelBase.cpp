@@ -66,3 +66,18 @@ std::vector<glm::vec3> ModelBase::GetNorms()
 {
 	return m_norms;
 }
+
+float ModelBase::GetModelHeight()
+{
+	int maxY = INT_MIN;
+	int minY = INT_MAX;
+	std::vector<glm::vec3>::iterator vertIter;
+	for (vertIter = m_verts.begin(); vertIter != m_verts.end(); vertIter++)
+	{
+		if ((*vertIter).y > maxY)
+			maxY = (*vertIter).y;
+		if ((*vertIter).y < minY)
+			minY = (*vertIter).y;
+	}
+	return maxY - minY;
+}

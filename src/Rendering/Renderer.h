@@ -69,6 +69,7 @@ public:
 	void SetView(Camera * camera);
 
 	void RenderGUI(GUI * gui);
+	glm::mat4x4 GetProjectionMatrix();
 private:
 		/**
 		 * Creates a projection matrix using GLM

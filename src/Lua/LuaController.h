@@ -77,7 +77,7 @@ private:
 		 * @param[in] scaleY The y scale of the object.
 		 * @param[in] scaleZ The z scale of the object.
 		 */
-	static int LoadGameObject(int modelId, float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float scaleX, float scaleY, float scaleZ);
+	static int LoadGameObject(int modelId, float posX, float posZ, float rotX, float rotY, float rotZ, float scaleX, float scaleY, float scaleZ);
 		/**
 		 * Loads a monster into the game -- Functionally the same of game object for the time being
 		 * @param[in] modelId The id of the model.
@@ -91,7 +91,7 @@ private:
 		 * @param[in] scaleY The y scale of the object.
 		 * @param[in] scaleZ The z scale of the object.
 		 */
-	static int LoadMonster(int modelId, float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float scaleX, float scaleY, float scaleZ);
+	static int LoadMonster(int modelId, float posX, float posZ, float rotX, float rotY, float rotZ, float scaleX, float scaleY, float scaleZ);
 		/**
 		 * Sets the terrain of the scene.
 		 * @param[in] heightmap The location of the heightmap file.
@@ -125,6 +125,7 @@ private:
 	std::vector<Texture2D*> m_loadedTextures;
 	std::vector<ModelOBJ*> m_loadedModelOBJs;
 	std::vector<GameObject*> m_loadedGameObjects;
+	std::vector<Agent*> m_loadedAgents;
 	Terrain * m_loadedTerrain;
 	Camera * m_loadedCamera;
 	Skybox * m_loadedSkybox;

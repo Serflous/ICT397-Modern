@@ -75,3 +75,18 @@ void GameObject::UpdateBoundingBoxWithPosition()
 {
 	m_boundingBox.SetLocalCoordinates(m_position);
 }
+
+void GameObject::Update(float deltaTime)
+{
+
+}
+
+void GameObject::SetHeight(float height)
+{
+	m_position.y = height;
+}
+
+float GameObject::GetModelHeight()
+{
+	return m_model->GetModelHeight();
+}

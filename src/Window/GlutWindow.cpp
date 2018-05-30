@@ -38,6 +38,7 @@ int GlutWindow::InitializeGlutWindow(int * argc, char ** argv, IniLoader loader)
 	glutInitWindowPosition(initPosX, initPosY);
 	glutInitWindowSize(atoi(loader.GetProperty("engine_window/width")), atoi(loader.GetProperty("engine_window/height")));//INIT_WINDOW_SIZE_X, INIT_WINDOW_SIZE_Y);
 	glutCreateWindow(loader.GetProperty("engine_window/title"));//WINDOW_TITLE);
+	glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
 
 	glewExperimental = GL_TRUE;
 	GLenum err = glewInit();

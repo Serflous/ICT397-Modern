@@ -90,6 +90,9 @@ public:
 		 * Updates the bounding box with the world position of the object.
 		 */
 	void UpdateBoundingBoxWithPosition();
+	void SetHeight(float height);
+	void Update(float deltaTime);
+	float GetModelHeight();
 private:
 
 protected:

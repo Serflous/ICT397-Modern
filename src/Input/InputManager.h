@@ -13,6 +13,7 @@ enum KeyState
 
 enum ButtonState
 {
+	BS_BUTTON_CLICK,
 	BS_BUTTON_DOWN,
 	BS_BUTTON_UP
 };
@@ -87,8 +88,10 @@ private:
 	static InputManager * m_instance;
 
 	KeyState m_keys[550];
+	KeyState m_prevKeys[550];
 	int m_x, m_y;
 	ButtonState m_buttonState[3];
+	ButtonState m_prevButtonState[3];
 };
 
 #endif
