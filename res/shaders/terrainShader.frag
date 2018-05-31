@@ -17,38 +17,43 @@ uniform vec3 lightColor;
 vec3 lowLight = vec3(0.4f, 0.4f, 0.4f);
 vec3 highLight = vec3(1.0f, 1.0f, 1.0f);
 
+layout(location=0) out vec4	RenderColor;
+layout(location=1) out vec4 PickingColor;
+
+
 void main(void)
 {
 	float relativeHeight = pass_height / 255.0f;
 
 	if(relativeHeight < 0.5f)
 	{
-		out_Color = texture(baseTexture, pass_textureCoords);
+		RenderColor = texture(baseTexture, pass_textureCoords);
 	}
 	else if(relativeHeight >= 0.5f && relativeHeight < 0.6f)
 	{
-		out_Color = texture(rTexture, pass_textureCoords);
+		RenderColor = texture(rTexture, pass_textureCoords);
 	}
 	else if(relativeHeight >= 0.6f && relativeHeight < 0.8f)
 	{
-		out_Color = texture(gTexture, pass_textureCoords);
+		RenderColor = texture(gTexture, pass_textureCoords);
 	}
 	else if(relativeHeight >= 0.8f && relativeHeight <= 1.0f)
 	{
-		out_Color = texture(bTexture, pass_textureCoords);
+		RenderColor = texture(bTexture, pass_textureCoords);
 	}
 	else
 	{
-		out_Color = vec4(0.0f, 0.0f, 0.0f, 1.0f);
+		RenderColor = vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	}
+	PickingColor = vec4(0.0f, 0.0f, 0.0f, 0.0f);
 	vec4 detailColor = texture(detailMapTexture, pass_detailTexCoords);
 
 	vec3 lightLevel = highLight - lowLight;
 	lightLevel = lightLevel * relativeHeight;
 	lightLevel = lightLevel + lowLight;
 
-	out_Color = mix(out_Color, detailColor, 0.25f);
-	out_Color = out_Color * vec4(lightLevel, 1.0f);
+	RenderColor = mix(RenderColor, detailColor, 0.25f);
+	RenderColor = RenderColor * vec4(lightLevel, 1.0f);
 	
 	
 }

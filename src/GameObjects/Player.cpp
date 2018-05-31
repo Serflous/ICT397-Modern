@@ -49,11 +49,16 @@ bool Player::IsDead()
 	return m_health <= 0;
 }
 
-void Player::Update(float deltaTime, std::vector<AABB> boxes, RayPicker picker)
+void Player::Update(float deltaTime, float pickedId, std::vector<Agent*> agents)
 {
 	if (InputManager::GetInstance()->GetButtonState(GLUT_LEFT_BUTTON) == BS_BUTTON_CLICK)
 	{
-		std::cout << "Mouse Click Ray: " << picker.GetRay().x << " " << picker.GetRay().y << " " << picker.GetRay().z << std::endl;
+		/*if (pickedId >= 0)
+		{
+			Agent * agent = agents[pickedId];
+			agent->Stop();
+		}*/
+		std::cout << "Mouse Click ID: " << pickedId << std::endl;
 	}
 }
 

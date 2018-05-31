@@ -49,6 +49,8 @@ public:
 		 * @param[in] cam The camera to set the view to.
 		 */
 	void LoadViewMatrix(Camera * cam);
+	void LoadEntityId(int id);
+	void LoadUseID(bool useId);
 private:
 
 protected:
@@ -57,6 +59,8 @@ private:
 	GLuint m_location_projectionMatrix;
 	GLuint m_location_transformationMatrix;
 	GLuint m_location_viewMatrix;
+	GLuint m_location_entityId;
+	GLuint m_location_useId;
 };
 
 #endif

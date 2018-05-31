@@ -7,8 +7,10 @@
 #include "../Collision/AABB.h"
 #include "RayPicker.h"
 #include "../Input/InputManager.h"
+#include "Agent.h"
 
 class RayPicker;
+class Agent;
 
 class Player
 {
@@ -22,7 +24,7 @@ public:
 	glm::vec3 GetPosition();
 	bool IsDead();
 
-	void Update(float deltaTime, std::vector<AABB> boxes, RayPicker picker);
+	void Update(float deltaTime, float pickedId, std::vector<Agent*> agents);
 
 	void TakeDamage(int damage);
 	bool FireWeapon();

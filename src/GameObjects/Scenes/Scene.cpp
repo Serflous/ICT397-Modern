@@ -35,18 +35,21 @@ void Scene::RenderScene()
 	m_renderer->PrepareRender();
 	std::vector<GameObject*>::iterator objIter;
 	m_renderer->SetView(m_camera);
+	std::vector<Agent*>::iterator agentIter;
+	int i;
+	for (agentIter = m_agents.begin(), i = 0; agentIter != m_agents.end(); agentIter++, i++)
+	{
+		m_renderer->RenderGameObject((*agentIter)->GetGameObject(), i);
+	}
 	m_renderer->RenderTerrain(m_terrain);
 	for (objIter = m_gameObjects.begin(); objIter != m_gameObjects.end(); objIter++)
 	{
 		m_renderer->RenderGameObject(*objIter);
 	}
-	std::vector<Agent*>::iterator agentIter;
-	for (agentIter = m_agents.begin(); agentIter != m_agents.end(); agentIter++)
-	{
-		m_renderer->RenderGameObject((*agentIter)->GetGameObject());
-	}
 	m_renderer->RenderSkybox(m_skybox);
+	m_renderer->FinalizeFramedRender();
 	m_renderer->RenderGUI(m_gui);
+
 }
 
 void Scene::UpdateScene(int deltaTime)
@@ -64,11 +67,14 @@ void Scene::UpdateScene(int deltaTime)
 	for (agentIter = m_agents.begin(); agentIter != m_agents.end(); agentIter++)
 	{
 		GameObject * object = (*agentIter)->GetGameObject();
+		(*agentIter)->SetAgentList(m_agents);
 		object->SetHeight((m_terrain->GetRelativeHeight((object->GetPosition().x / m_terrain->GetScale().x), (object->GetPosition().z) / m_terrain->GetScale().z) * m_terrain->GetScale().y) + (object->GetModelHeight() / 2));
 		object->Update(deltaTime);
 		object->UpdateBoundingBoxWithPosition();
 		boxes.push_back(object->GetBoundingBox());
 	}
+	Dispatcher::GetInstance()->Update(deltaTime);
+	float pickedId = m_renderer->GetPickedID();
 	m_camera->Move(boxes, deltaTime);
 	m_player->SetPosition(m_camera->GetPosition());
 	float xPos = m_camera->GetPosition().x / m_terrain->GetScale().x;
@@ -82,7 +88,7 @@ void Scene::UpdateScene(int deltaTime)
 	}
 	RayPicker picker(m_renderer->GetProjectionMatrix());
 	picker.Update(m_camera);
-	m_player->Update(deltaTime, boxes, picker);
+	m_player->Update(deltaTime, pickedId, m_agents);
 }
 
 void Scene::SetTerrain(Terrain * terrain)

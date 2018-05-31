@@ -101,6 +101,7 @@ protected:
 		 * @param[in] value the int value to load
 		 */
 	void LoadInt(GLuint location, int value);
+	void LoadUInt(GLuint location, unsigned int value);
 		/**
 		 * Loads a vec3 value to the shader
 		 * @param[in] location The location of the uniform

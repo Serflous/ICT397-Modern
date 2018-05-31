@@ -23,7 +23,6 @@ public:
 	glm::vec3 GetRay();
 	
 	void Update(Camera * camera);
-
 private:
 private:
 	glm::mat4x4 m_projectionMatrix;

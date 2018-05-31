@@ -1,6 +1,7 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
+#include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 #include <GL/glew.h>
 #include <GL/freeglut.h>
@@ -55,7 +56,9 @@ public:
 		 * Renders a GameObject.
 		 * @param[in] obj The object to draw to the screen.
 		 */
+	void PrepareFramedRender();
 	void RenderGameObject(GameObject * obj);
+	void RenderGameObject(GameObject * obj, int id);
 		/**
 		 * Renders a Terrain object to the screen
 		 * @param[in] terrain The terrain to draw
@@ -70,6 +73,8 @@ public:
 
 	void RenderGUI(GUI * gui);
 	glm::mat4x4 GetProjectionMatrix();
+	float GetPickedID();
+	void FinalizeFramedRender();
 private:
 		/**
 		 * Creates a projection matrix using GLM
@@ -85,6 +90,14 @@ private:
 	const float FOV = 70.0f;
 	const float NEAR_PLANE = 0.1f;
 	const float FAR_PLANE = 1000.0f;
+
+	unsigned int m_renderColorBuffer;
+	unsigned int m_pickingColorBuffer;
+	unsigned int m_renderDepthBuffer;
+	unsigned int m_frameBuffer;
+	unsigned int m_renderColorImage;
+	unsigned int m_pickingColorImage;
+	unsigned int m_renderDepthImage;
 };
 
 #endif

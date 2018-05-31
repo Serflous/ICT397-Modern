@@ -27,6 +27,8 @@ void StaticShader::GetAllUniforms()
 	m_location_projectionMatrix = GetUniform("projectionMatrix");
 	m_location_transformationMatrix = GetUniform("transformationMatrix");
 	m_location_viewMatrix = GetUniform("viewMatrix");
+	m_location_entityId = GetUniform("entityId");
+	m_location_useId = GetUniform("userId");
 	
 }
 
@@ -53,4 +55,14 @@ void StaticShader::LoadViewMatrix(Camera * cam)
 	//for (int i = 0; i < 4; i++)
 		//std::cout << viewMatrix[i][0] << "\t" << viewMatrix[i][1] << "\t" << viewMatrix[i][2] << "\t" << viewMatrix[i][3] << std::endl;
 	LoadMatrix4(m_location_viewMatrix, viewMatrix);
+}
+
+void StaticShader::LoadEntityId(int id)
+{
+	LoadUInt(m_location_entityId, id);
+}
+
+void StaticShader::LoadUseID(bool useId)
+{
+	LoadBoolean(m_location_useId, useId);
 }
