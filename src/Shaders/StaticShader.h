@@ -49,7 +49,15 @@ public:
 		 * @param[in] cam The camera to set the view to.
 		 */
 	void LoadViewMatrix(Camera * cam);
+		/**
+		 * Loads the entity ID to the shader
+		 * @param[in] id The ID of the entity.
+		 */
 	void LoadEntityId(int id);
+		/**
+		* Loads a boolean value to the shader for if the ID is used.
+		* @param[in] useId The boolean value
+		*/
 	void LoadUseID(bool useId);
 private:
 

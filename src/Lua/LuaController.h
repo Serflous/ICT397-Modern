@@ -116,7 +116,15 @@ private:
 		 * @param[in] roll The roll of the camera.
 		 */
 	static void SetCamera(float posX, float posY, float posZ, float pitch, float yaw, float roll);
-
+		/**
+		* Sets the skybox of the game.
+		* @param[in] right The right texture.
+		* @param[in] left The left texture.
+		* @param[in] top The top texture.
+		* @param[in] bottom The bottom texture.
+		* @param[in] back The back texture.
+		* @param[in] front The front texture.
+		*/
 	static void SetSkybox(const char * right, const char * left, const char * top, const char * bottom, const char * back, const char * front);
 private:
 	static LuaController * m_instance;

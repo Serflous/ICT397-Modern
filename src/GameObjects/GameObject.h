@@ -90,8 +90,20 @@ public:
 		 * Updates the bounding box with the world position of the object.
 		 */
 	void UpdateBoundingBoxWithPosition();
+		/**
+		* Sets the height of the object.
+		* @param[in] height THe height of the object.
+		*/
 	void SetHeight(float height);
+		/**
+		* Updates the game object.
+		* @param[in] deltaTime The time elapsed since the last frame.
+		*/
 	void Update(float deltaTime);
+		/**
+		* Gets the height of the model by calculating the verts.
+		* @return float THe height.
+		*/
 	float GetModelHeight();
 private:
 

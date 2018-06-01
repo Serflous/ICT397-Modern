@@ -283,8 +283,3 @@ void Renderer::FinalizeFramedRender()
 	glBlitFramebuffer(0, 0, x, y, 0, 0, x, y, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 	
 }
-
-void Renderer::PrepareFramedRender()
-{
-	
-}

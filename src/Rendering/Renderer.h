@@ -52,12 +52,17 @@ public:
 		 * Prepares for rendering. Clearing the screen and enabling options.
 		 */
 	void PrepareRender();
+
 		/**
 		 * Renders a GameObject.
 		 * @param[in] obj The object to draw to the screen.
 		 */
-	void PrepareFramedRender();
 	void RenderGameObject(GameObject * obj);
+		/**
+		 * Renders a GameObject with an ID.
+		 * @param[in] obj The object to draw to the screen.
+		 * @param[in] id The id of the object
+		 */
 	void RenderGameObject(GameObject * obj, int id);
 		/**
 		 * Renders a Terrain object to the screen
@@ -68,12 +73,30 @@ public:
 		 * Sets the view to the view of the camera.
 		 * @param[in] camera The camera.
 		 */
-	void RenderSkybox(Skybox * skybox);
 	void SetView(Camera * camera);
-
+		/**
+		* Renders the skybox.
+		* @param[in] skybox The skybox ton render.
+		*/
+	void RenderSkybox(Skybox * skybox);
+		/**
+		* Renders the GUI.
+		* @param[in] gui The gui to render.
+		*/
 	void RenderGUI(GUI * gui);
+		/**
+		* Gets the projection matrix.
+		* @return glm::mat4x4 The projection matrix.
+		*/
 	glm::mat4x4 GetProjectionMatrix();
+		/**
+		* Gets the current picked ID.
+		* @return float The ID of the picked object.
+		*/
 	float GetPickedID();
+		/**
+		* Finalizes the framed render.
+		*/
 	void FinalizeFramedRender();
 private:
 		/**

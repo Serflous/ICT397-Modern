@@ -60,8 +60,14 @@ public:
 		 * @param[in] fragFilename The filename of the fragment shader.
 		 * @param[out] shader The ShaderBase object to load the shader into.
 		 */
-	void LoadCollada(const char * filename, ModelAnimated ** model, Texture2D * texture);
 	void LoadShader(const char * vertFilename, const char * fragFilename, ShaderBase ** shader);
+		/**
+		 * Loads in a collada file.
+		 * @param[in] filename The location of the collada file.
+		 * @param[out] model The ModelAnimated object.
+		 * @param[in] texture The texture that the model uses.
+		 */
+	void LoadCollada(const char * filename, ModelAnimated ** model, Texture2D * texture);
 		/**
 		 * Loads a given terrain file.
 		 * @param[in] heightmap The location of the heightmap.
@@ -80,7 +86,17 @@ public:
 		 * @param[out] object The GmaeObject to load the object into.
 		 */
 	void LoadGameObject(ModelBase * model, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, GameObject ** object);
+		/**
+		* Loads a skybox into the game.
+		* @param[out] skybox The skybox object.
+		* @param[in] textures A list of texture locations.
+		* @param[in] size The size of the textures.
+		*/
 	void LoadSkybox(Skybox ** skybox, std::vector<const char *> textures, int size);
+		/**
+		* Loads the GUI Quad into the game.
+		* @param[out] The GUI object to load it into.
+		*/
 	void LoadGUIQuad(GUI ** gui);
 
 private:
@@ -149,7 +165,11 @@ private:
 		 * @param[in] type The type of the shader. Vertex or Fragment.
 		 */
 	int LoadShaderFile(const char * filename, int type);
-
+		/**
+		* Loads the skybox texture data.
+		* @param[in] filename The location of the textures.
+		* @param[in] size The size of the texture.
+		*/
 	unsigned char * LoadSkyboxTextureData(const char * filename, int size);
 
 private:

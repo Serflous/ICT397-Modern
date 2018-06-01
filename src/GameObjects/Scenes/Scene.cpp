@@ -86,8 +86,6 @@ void Scene::UpdateScene(int deltaTime)
 	{
 		(*agentIter)->Update(deltaTime);
 	}
-	RayPicker picker(m_renderer->GetProjectionMatrix());
-	picker.Update(m_camera);
 	m_player->Update(deltaTime, pickedId, m_agents);
 }
 

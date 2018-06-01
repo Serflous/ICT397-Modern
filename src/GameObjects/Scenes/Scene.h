@@ -10,14 +10,12 @@
 #include "../../Resources/Terrain.h"
 #include "../../Resources/Skybox.h"
 #include "../../Resources/GUI/GUI.h"
-#include "../RayPicker.h"
 #include "../Player.h"
 #include "../Agent.h"
 
 class Camera;
 class Terrain;
 class Renderer;
-class RayPicker;
 class Player;
 class Agent;
 
@@ -54,22 +52,41 @@ public:
 		 * Sets the renderer used by the scene
 		 * @param[in] renderer The renderer used.
 		 */
-	void AddAgent(Agent * agent);
 	void SetRenderer(Renderer * renderer);
+		/**
+		* Adds an agent to the scene.
+		* @param[in] agent The agent to add
+		*/
+	void AddAgent(Agent * agent);
 		/**
 		 * Sets the terrain of the scene
 		 * @param[in] terrain The terrain used.
 		 */
 	void SetTerrain(Terrain * terrain);
-
+		/**
+		* Sets the skybox used by the scene.
+		* @param[in] skybox THe skybox to use.
+		*/
 	void SetSkybox(Skybox * skybox);
+		/**
+		* Sets the GUI used in the scene.
+		* @param[in] gui The gui to use
+		*/
 	void SetGUI(GUI * gui);
+		/**
+		* Sets the player in the scene.
+		* @param[in] player The player to add
+		*/
 	void SetPlayer(Player * player);
 
 		/**
 		 * Renders the current scene.
 		 */
 	void RenderScene();
+		/**
+		* Updates the scene.
+		* @param[in] deltaTime THe time elapsed since the last frame update.
+		*/
 	void UpdateScene(int deltaTime);
 private:
 
@@ -82,7 +99,6 @@ private:
 	Terrain * m_terrain;
 	Skybox * m_skybox;
 	GUI * m_gui;
-	RayPicker * m_rayPicker;
 };
 
 #endif

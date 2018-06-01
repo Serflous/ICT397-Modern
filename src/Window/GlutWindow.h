@@ -45,6 +45,10 @@ public:
 		 * Internal callback. Will be called when the game screen is resized. This will also happen once at creation.
 		 */
 	void ReshapeCallback(int w, int h);
+		/**
+		* Update method. Is called on a timer, using gluts timer function. Will try to keep at 16ms.
+		* @param[in] value The value that is passed through the glut timer. In this case it is the total time since the last update.
+		*/
 	void Update(int value);
 		/**
 		 * Gets the current window size.
@@ -105,6 +109,10 @@ public:
 		 * @param[in] y The mouses y coordinates.
 		 */
 	static void StaticMousePositionCallback(int x, int y);
+		/**
+		* FreeGlut callback. A static function provided to glut to call when the timer ticks.
+		* @param[in] value The value suppied for the timer.
+		*/
 	static void StaticUpdateCallback(int value);
 
 		/**

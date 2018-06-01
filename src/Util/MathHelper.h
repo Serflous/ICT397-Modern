@@ -18,12 +18,18 @@ class MathHelper
 {
 public:
 		/**
-		 * Creates a transformation matrix by compiling all transformations.
+		 * Creates a 3d transformation matrix by compiling all transformations.
 		 * @param[in] translation The translation of the object.
 		 * @param[in] rotation The rotation of the object.
 		 * @param[in] scale The scale of the object
 		 */
 	static glm::mat4x4 CreateTransformationMatrix(glm::vec3 translation, glm::vec3 rotation, glm::vec3 scale);
+		/**
+		* Creates a 2d transformation matrix by compiling all transformations.
+		* @param[in] translation The translation of the object.
+		* @param[in] rotation The rotation of the object.
+		* @param[in] scale The scale of the object.
+		*/
 	static glm::mat4x4 CreateTransformationMatrix(glm::vec2 translation, glm::vec2 rotation, glm::vec2 scale);
 		/**
 		 * Creates a view matrix by compiling the values from a camera.
